@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Travaux — Studio Onze</title>
+<meta name="description" content="Sélection de projets de Studio Onze : identité visuelle, sites web, direction artistique, print.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="index.html">Studio Onze</a>
+    <ul class="navlinks">
+      <li><a href="travaux.html">Travaux</a></li>
+      <li><a href="apropos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:.8rem;">
+      <button class="themebtn" id="themeToggle" aria-label="Changer de thème">◐</button>
+      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobilemenu" id="mobileMenu">
+    <a href="travaux.html">Travaux</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section style="padding-bottom:2rem;">
+    <div class="wrap">
+      <h1 style="font-size:clamp(1.8rem,4.5vw,3rem);">Travaux</h1>
+      <p class="hero-lede">Une sélection de projets récents. Survole un titre pour voir un aperçu.</p>
+    </div>
+  </section>
+
+  <section style="border-top:none;">
+    <div class="wrap">
+      <ul class="work-list">
+        <li class="work-row"><a href="#" data-label="Identité — placeholder">
+          <div class="row-thumb">Visuel à venir</div>
+          <span class="wnum">01</span><span class="wname char">Nova&nbsp;Éditions</span><span class="wtype">Identité</span>
+        </a></li>
+        <li class="work-row"><a href="#" data-label="Site web — placeholder">
+          <div class="row-thumb">Visuel à venir</div>
+          <span class="wnum">02</span><span class="wname">Atelier&nbsp;Marèges</span><span class="wtype">Site web</span>
+        </a></li>
+        <li class="work-row"><a href="#" data-label="Print — placeholder">
+          <div class="row-thumb">Visuel à venir</div>
+          <span class="wnum">03</span><span class="wname char">Maison&nbsp;Verre</span><span class="wtype">Print</span>
+        </a></li>
+        <li class="work-row"><a href="#" data-label="Direction artistique — placeholder">
+          <div class="row-thumb">Visuel à venir</div>
+          <span class="wnum">04</span><span class="wname">Klint&nbsp;Studio</span><span class="wtype">Direction artistique</span>
+        </a></li>
+        <li class="work-row"><a href="#" data-label="Motion — placeholder">
+          <div class="row-thumb">Visuel à venir</div>
+          <span class="wnum">05</span><span class="wname char">Perle&nbsp;Noire</span><span class="wtype">Motion</span>
+        </a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="cursor-preview" id="cursorPreview"><span></span></div>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>Studio Onze © 2026 — Thulin, Belgique</span>
+    <ul class="foot-links"><li><a href="contact.html">Contact</a></li></ul>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

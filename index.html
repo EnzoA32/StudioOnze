@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio Onze — Design graphique & web, Thulin</title>
+<meta name="description" content="Studio Onze, graphiste et web designer indépendant basé à Thulin. Identité visuelle, direction artistique et sites web sur mesure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="index.html">Studio Onze</a>
+    <ul class="navlinks">
+      <li><a href="travaux.html">Travaux</a></li>
+      <li><a href="apropos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:.8rem;">
+      <button class="themebtn" id="themeToggle" aria-label="Changer de thème">◐</button>
+      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobilemenu" id="mobileMenu">
+    <a href="travaux.html">Travaux</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section id="accueil">
+    <div class="wrap">
+      <h1>Des identités <span class="char">nettes</span> et des sites qui durent.</h1>
+      <p class="hero-lede">Graphiste et web designer indépendant, basé à Thulin. Je conçois des systèmes visuels simples à vivre au quotidien — du logo au site web.</p>
+    </div>
+  </section>
+
+  <section id="travaux">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Travaux récents</h2>
+        <a class="caps" href="travaux.html">Voir tout →</a>
+      </div>
+      <div class="preview-grid">
+        <a class="preview-item" href="travaux.html"><div class="preview-thumb"><span>Visuel à venir</span></div><div class="preview-name">Projet 01 — Identité</div></a>
+        <a class="preview-item" href="travaux.html"><div class="preview-thumb"><span>Visuel à venir</span></div><div class="preview-name">Projet 02 — Site web</div></a>
+        <a class="preview-item" href="travaux.html"><div class="preview-thumb"><span>Visuel à venir</span></div><div class="preview-name">Projet 03 — Print</div></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head"><h2>Services</h2></div>
+      <ul class="services">
+        <li><span class="num">01</span><span class="name">Identité visuelle</span><span class="desc">Logo, système graphique, charte</span></li>
+        <li><span class="num">02</span><span class="name">Sites web</span><span class="desc">Design & développement sur mesure</span></li>
+        <li><span class="num">03</span><span class="name">Direction artistique</span><span class="desc">Suivi de marque, campagnes</span></li>
+        <li><span class="num">04</span><span class="name">Print</span><span class="desc">Édition, packaging, signalétique</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="clients">
+    <div class="wrap">
+      <div class="section-head"><h2>Ils m'ont fait confiance</h2></div>
+      <div class="client-row">
+        <div class="client-cell">Client 01</div><div class="client-cell">Client 02</div><div class="client-cell">Client 03</div>
+        <div class="client-cell">Client 04</div><div class="client-cell">Client 05</div><div class="client-cell">Client 06</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>Studio Onze © 2026 — Thulin, Belgique</span>
+    <ul class="foot-links"><li><a href="contact.html">Contact</a></li></ul>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

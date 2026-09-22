@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact — Studio Onze</title>
+<meta name="description" content="Contactez Studio Onze pour un projet d'identité visuelle ou de site web, ou une demande de stage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <a class="logo" href="index.html">Studio Onze</a>
+    <ul class="navlinks">
+      <li><a href="travaux.html">Travaux</a></li>
+      <li><a href="apropos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:.8rem;">
+      <button class="themebtn" id="themeToggle" aria-label="Changer de thème">◐</button>
+      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobilemenu" id="mobileMenu">
+    <a href="travaux.html">Travaux</a><a href="apropos.html">À propos</a><a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <p class="caps">Contact</p>
+        <h2 style="margin:.5rem 0 1rem;">Un projet en tête ?</h2>
+        <p>Décris-moi ton projet et je reviens vers toi sous 48h. Basé à Thulin, je travaille avec des clients partout en Belgique et à distance.</p>
+        <a class="mail" href="mailto:hello@studio-onze.be">hello@studio-onze.be</a>
+      </div>
+      <div>
+        <form id="contactForm">
+          <div class="field honey">
+            <label for="website">Ne pas remplir</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="type">Type de demande</label>
+            <select id="type" name="type" required>
+              <option value="client">Projet / demande client</option>
+              <option value="stage">Demande de stage</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="field"><label for="name">Nom</label><input type="text" id="name" name="name" required></div>
+          <div class="field"><label for="email">Email</label><input type="email" id="email" name="email" required></div>
+          <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+          <button class="submit" type="submit">Envoyer le message</button>
+          <p class="form-status" id="formStatus"></p>
+          <p class="form-note">Formulaire à connecter à Formspree ou Web3Forms pour la réception réelle des messages — voir le commentaire dans script.js.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>Studio Onze © 2026 — Thulin, Belgique</span>
+    <ul class="foot-links"><li><a href="mailto:hello@studio-onze.be">Email</a></li></ul>
+  </div>
+</footer>
+<script src="script.js"></script>
+<script>
+/*
+  FORMULAIRE — à connecter à un service externe (le site est un simple
+  fichier statique, sans serveur).
+  1. Créer un compte sur https://formspree.io, créer un formulaire.
+  2. Remplacer FORM_ENDPOINT ci-dessous par l'URL fournie.
+  3. Le champ "type" (client / stage / autre) est ajouté au sujet de
+     l'email pour trier facilement — crée une règle de tri dans ta boîte
+     mail sur ce mot-clé pour automatiser les réponses aux stagiaires.
+  4. Le champ caché "website" est un piège à spam (honeypot).
+*/
+const FORM_ENDPOINT = "https://formspree.io/f/REMPLACER_PAR_TON_ID";
+const form = document.getElementById('contactForm');
+const status = document.getElementById('formStatus');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (form.website.value !== '') return;
+  if (FORM_ENDPOINT.includes('REMPLACER_PAR_TON_ID')) {
+    status.textContent = "Formulaire pas encore connecté — voir le commentaire dans le code.";
+    status.classList.add('show'); return;
+  }
+  const typeLabel = { client:'Projet client', stage:'Demande de stage', autre:'Autre' }[form.type.value] || 'Autre';
+  const data = new FormData(form);
+  data.set('_subject', `[Studio Onze — ${typeLabel}] Nouveau message de ${form.name.value}`);
+  try {
+    const res = await fetch(FORM_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' } });
+    status.textContent = res.ok ? "Message envoyé — merci, je reviens vers toi rapidement." : "Erreur d'envoi, écris directement à hello@studio-onze.be.";
+    if (res.ok) form.reset();
+  } catch (err) { status.textContent = "Erreur d'envoi, écris directement à hello@studio-onze.be."; }
+  status.classList.add('show');
+});
+</script>
+</body>
+</html>
