@@ -12,7 +12,7 @@ if (burger) {
   }));
 }
 
-// Thème clair/sombre
+// Theme clair/sombre
 const themeBtn = document.getElementById('themeToggle');
 if (themeBtn) {
   themeBtn.addEventListener('click', () => {
@@ -24,24 +24,53 @@ if (themeBtn) {
   });
 }
 
-// Marque le lien actif dans la nav selon la page courante
+// Lien actif dans la nav selon la page courante
 const path = location.pathname.split('/').pop() || 'index.html';
 document.querySelectorAll('.navlinks a, .mobilemenu a').forEach(a => {
   if (a.getAttribute('href') === path) a.classList.add('active');
 });
 
-// Aperçu qui suit le curseur sur la page Travaux (inspiré loveandmoney.com)
+// Bascule Grille / Liste + filtre par type sur la page Travaux
+const viewBtns = document.querySelectorAll('.view-toggle button');
+const typeSelect = document.getElementById('typeSelect');
+if (viewBtns.length) {
+  viewBtns.forEach(btn => btn.addEventListener('click', () => {
+    viewBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.view-block').forEach(v => v.classList.remove('active'));
+    document.getElementById(btn.dataset.view + 'View').classList.add('active');
+  }));
+}
+if (typeSelect) {
+  typeSelect.addEventListener('change', () => {
+    const val = typeSelect.value;
+    document.querySelectorAll('.grid-card, .work-row').forEach(el => {
+      el.style.display = (val === 'all' || el.dataset.type === val) ? '' : 'none';
+    });
+  });
+}
+
+// Aperçu flottant avec inertie sur la page Travaux (inspiré loveandmoney.com)
 const preview = document.getElementById('cursorPreview');
 const rows = document.querySelectorAll('.work-row a');
 if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
-  const img = preview.querySelector('span');
-  window.addEventListener('mousemove', e => {
-    preview.style.left = e.clientX + 'px';
-    preview.style.top = e.clientY + 'px';
-  });
+  const label = preview.querySelector('span');
+  let mouseX = 0, mouseY = 0, curX = 0, curY = 0, active = false;
+
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function loop(){
+    curX += (mouseX - curX) * 0.16;
+    curY += (mouseY - curY) * 0.16;
+    preview.style.left = curX + 'px';
+    preview.style.top = curY + 'px';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
   rows.forEach(row => {
     row.addEventListener('mouseenter', () => {
-      img.textContent = row.dataset.label || 'Visuel à venir';
+      label.textContent = row.dataset.label || 'Visuel à venir';
       preview.classList.add('show');
     });
     row.addEventListener('mouseleave', () => preview.classList.remove('show'));

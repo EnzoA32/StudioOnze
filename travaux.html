@@ -7,13 +7,13 @@
 <meta name="description" content="Sélection de projets de Studio Onze : identité visuelle, sites web, direction artistique, print.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
   <nav class="wrap">
-    <a class="logo" href="index.html">Studio Onze</a>
+    <a class="logo-mark small" href="index.html">studi<span class="onze">onze</span><sup>™</sup></a>
     <ul class="navlinks">
       <li><a href="travaux.html">Travaux</a></li>
       <li><a href="apropos.html">À propos</a></li>
@@ -30,37 +30,80 @@
 </header>
 
 <main>
-  <section style="padding-bottom:2rem;">
-    <div class="wrap">
-      <h1 style="font-size:clamp(1.8rem,4.5vw,3rem);">Travaux</h1>
-      <p class="hero-lede">Une sélection de projets récents. Survole un titre pour voir un aperçu.</p>
+  <section style="padding-bottom:0;">
+    <div class="wrap" style="display:flex; justify-content:space-between; gap:2rem; flex-wrap:wrap; align-items:flex-end;">
+      <h2 style="font-size:clamp(2.2rem,6vw,4.5rem);">Projets.</h2>
+      <p class="hero-lede" style="margin-top:0; max-width:30ch;"><span class="caps">(Meilleurs travaux)</span><br>Une sélection de projets récents, en identité, digital et print.</p>
     </div>
   </section>
 
   <section style="border-top:none;">
     <div class="wrap">
-      <ul class="work-list">
-        <li class="work-row"><a href="#" data-label="Identité — placeholder">
-          <div class="row-thumb">Visuel à venir</div>
-          <span class="wnum">01</span><span class="wname char">Nova&nbsp;Éditions</span><span class="wtype">Identité</span>
-        </a></li>
-        <li class="work-row"><a href="#" data-label="Site web — placeholder">
-          <div class="row-thumb">Visuel à venir</div>
-          <span class="wnum">02</span><span class="wname">Atelier&nbsp;Marèges</span><span class="wtype">Site web</span>
-        </a></li>
-        <li class="work-row"><a href="#" data-label="Print — placeholder">
-          <div class="row-thumb">Visuel à venir</div>
-          <span class="wnum">03</span><span class="wname char">Maison&nbsp;Verre</span><span class="wtype">Print</span>
-        </a></li>
-        <li class="work-row"><a href="#" data-label="Direction artistique — placeholder">
-          <div class="row-thumb">Visuel à venir</div>
-          <span class="wnum">04</span><span class="wname">Klint&nbsp;Studio</span><span class="wtype">Direction artistique</span>
-        </a></li>
-        <li class="work-row"><a href="#" data-label="Motion — placeholder">
-          <div class="row-thumb">Visuel à venir</div>
-          <span class="wnum">05</span><span class="wname char">Perle&nbsp;Noire</span><span class="wtype">Motion</span>
-        </a></li>
-      </ul>
+      <div class="filters">
+        <select id="sortSelect"><option>Trier par : Récents</option><option>Trier par : A → Z</option></select>
+        <select id="typeSelect">
+          <option value="all">Type de projet : Tous</option>
+          <option value="identite">Identité</option>
+          <option value="web">Site web</option>
+          <option value="print">Print</option>
+          <option value="da">Direction artistique</option>
+          <option value="motion">Motion</option>
+        </select>
+        <div class="view-toggle">
+          <button data-view="grid" class="active">Grille</button>
+          <button data-view="list">Liste</button>
+        </div>
+      </div>
+
+      <div class="view-block active" id="gridView">
+        <div class="grid-view">
+          <a class="grid-card featured" href="#" data-type="identite">
+            <div class="grid-thumb"><span class="grid-num">(001)</span><span class="ph">Visuel à venir</span>
+              <div class="grid-overlay"><span class="view-btn">→ Voir le projet</span></div></div>
+            <div class="grid-caption"><span class="char">Nova Éditions</span><span class="type">Identité</span></div>
+          </a>
+          <a class="grid-card" href="#" data-type="web">
+            <div class="grid-thumb"><span class="grid-num">(002)</span><span class="ph">Visuel à venir</span>
+              <div class="grid-overlay"><span class="view-btn">→ Voir le projet</span></div></div>
+            <div class="grid-caption"><span>Atelier Marèges</span><span class="type">Site web</span></div>
+          </a>
+          <a class="grid-card" href="#" data-type="print">
+            <div class="grid-thumb"><span class="grid-num">(003)</span><span class="ph">Visuel à venir</span>
+              <div class="grid-overlay"><span class="view-btn">→ Voir le projet</span></div></div>
+            <div class="grid-caption"><span class="char">Maison Verre</span><span class="type">Print</span></div>
+          </a>
+          <a class="grid-card" href="#" data-type="da">
+            <div class="grid-thumb"><span class="grid-num">(004)</span><span class="ph">Visuel à venir</span>
+              <div class="grid-overlay"><span class="view-btn">→ Voir le projet</span></div></div>
+            <div class="grid-caption"><span>Klint Studio</span><span class="type">Direction artistique</span></div>
+          </a>
+          <a class="grid-card" href="#" data-type="motion">
+            <div class="grid-thumb"><span class="grid-num">(005)</span><span class="ph">Visuel à venir</span>
+              <div class="grid-overlay"><span class="view-btn">→ Voir le projet</span></div></div>
+            <div class="grid-caption"><span class="char">Perle Noire</span><span class="type">Motion</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="view-block" id="listView">
+        <ul class="work-list">
+          <li class="work-row" data-type="identite"><a href="#" data-label="Identité — placeholder">
+            <span class="wnum">01</span><span class="wname char">Nova&nbsp;Éditions</span><span class="wtype">Identité</span>
+          </a></li>
+          <li class="work-row" data-type="web"><a href="#" data-label="Site web — placeholder">
+            <span class="wnum">02</span><span class="wname">Atelier&nbsp;Marèges</span><span class="wtype">Site web</span>
+          </a></li>
+          <li class="work-row" data-type="print"><a href="#" data-label="Print — placeholder">
+            <span class="wnum">03</span><span class="wname char">Maison&nbsp;Verre</span><span class="wtype">Print</span>
+          </a></li>
+          <li class="work-row" data-type="da"><a href="#" data-label="Direction artistique — placeholder">
+            <span class="wnum">04</span><span class="wname">Klint&nbsp;Studio</span><span class="wtype">Direction artistique</span>
+          </a></li>
+          <li class="work-row" data-type="motion"><a href="#" data-label="Motion — placeholder">
+            <span class="wnum">05</span><span class="wname char">Perle&nbsp;Noire</span><span class="wtype">Motion</span>
+          </a></li>
+        </ul>
+      </div>
     </div>
   </section>
 </main>
