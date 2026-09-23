@@ -30,6 +30,17 @@ document.querySelectorAll('.navlinks a, .mobilemenu a').forEach(a => {
   if (a.getAttribute('href') === path) a.classList.add('active');
 });
 
+// Filmstrip Travaux récents : la molette verticale fait défiler horizontalement
+const filmstrip = document.querySelector('.filmstrip');
+if (filmstrip) {
+  filmstrip.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      filmstrip.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+}
+
 // Bascule Grille / Liste + filtre par type sur la page Travaux
 const viewBtns = document.querySelectorAll('.view-toggle button');
 const typeSelect = document.getElementById('typeSelect');
