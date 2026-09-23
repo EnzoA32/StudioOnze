@@ -8,12 +8,30 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://www.studio-onze.be/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Studio Onze — Graphiste et web designer indépendant à Thulin">
+<meta property="og:description" content="Studio Onze, graphiste et web designer indépendant basé à Thulin. Identité visuelle, direction artistique et sites web sur mesure.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.studio-onze.be/">
+<meta property="og:locale" content="fr_BE">
 <link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Studio Onze",
+  "url": "https://www.studio-onze.be/",
+  "description": "Graphiste et web designer indépendant — identité visuelle, direction artistique, sites web.",
+  "address": { "@type": "PostalAddress", "addressLocality": "Thulin", "addressCountry": "BE" },
+  "areaServed": "BE"
+}
+</script>
 </head>
 <body>
 <header>
   <nav class="wrap">
-    <a class="logo-mark small" href="index.html">studi<span class="onze">onze</span><sup>™</sup></a>
+    <a class="logo-mark small" href="index.html" aria-label="Studio Onze — Accueil"><svg class="logo-svg" viewBox="0 0 400 90" role="img" aria-hidden="true"><text x="2" y="62" font-family="Archivo, Helvetica, Arial, sans-serif" font-weight="700" font-size="58">studi</text><text x="150" y="66" font-family="'Permanent Marker', cursive" font-weight="400" font-size="64" transform="rotate(-4 150 66)">onze</text><text x="368" y="26" font-family="Archivo, Helvetica, Arial, sans-serif" font-weight="600" font-size="18">TM</text></svg></a>
     <ul class="navlinks">
       <li><a href="travaux.html">Travaux</a></li>
       <li><a href="apropos.html">À propos</a></li>
@@ -32,7 +50,8 @@
 <main>
   <section id="accueil" class="hero-lines">
     <div class="wrap hero-top">
-      <a class="logo-mark big" href="index.html">studi<span class="onze">onze</span><sup>™</sup></a>
+      <h1 class="sr-only">Studio Onze — Graphiste et web designer indépendant à Thulin, Belgique</h1>
+      <a class="logo-mark big" href="index.html" aria-label="Studio Onze"><svg class="logo-svg" viewBox="0 0 400 90" role="img" aria-hidden="true"><text x="2" y="62" font-family="Archivo, Helvetica, Arial, sans-serif" font-weight="700" font-size="58">studi</text><text x="150" y="66" font-family="'Permanent Marker', cursive" font-weight="400" font-size="64" transform="rotate(-4 150 66)">onze</text><text x="368" y="26" font-family="Archivo, Helvetica, Arial, sans-serif" font-weight="600" font-size="18">TM</text></svg></a>
     </div>
     <div class="wrap hero-grid">
       <div class="hero-intro">
@@ -59,14 +78,44 @@
   </section>
 
   <section id="services">
-    <div class="wrap">
-      <div class="section-head"><h2>Services</h2></div>
-      <ul class="services">
-        <li><span class="num">01</span><span class="name">Identité visuelle</span><span class="desc">Logo, système graphique, charte</span></li>
-        <li><span class="num">02</span><span class="name">Sites web</span><span class="desc">Design & développement sur mesure</span></li>
-        <li><span class="num">03</span><span class="name">Direction artistique</span><span class="desc">Suivi de marque, campagnes</span></li>
-        <li><span class="num">04</span><span class="name">Print</span><span class="desc">Édition, packaging, signalétique</span></li>
-      </ul>
+    <div class="wrap services-layout">
+      <div>
+        <span class="caps">(Ce que je fais)</span>
+        <h2 style="margin-top:.8rem;">Services</h2>
+        <ul class="service-acc">
+          <li class="service-item" tabindex="0">
+            <div class="service-top"><span class="num">01</span><h3 class="service-title">Identité visuelle</h3><span class="service-plus">+</span></div>
+            <div class="service-body"><div class="service-body-inner">
+              <p>Logo, système graphique et charte pensés pour tenir dans le temps et s'appliquer facilement à tous vos supports.</p>
+              <ul class="service-tags"><li>Logo</li><li>Charte graphique</li><li>Système visuel</li><li>Naming</li></ul>
+            </div></div>
+          </li>
+          <li class="service-item" tabindex="0">
+            <div class="service-top"><span class="num">02</span><h3 class="service-title">Sites web</h3><span class="service-plus">+</span></div>
+            <div class="service-body"><div class="service-body-inner">
+              <p>Conception et développement de sites sur mesure, rapides, responsives et pensés pour le référencement naturel.</p>
+              <ul class="service-tags"><li>Design UI</li><li>Développement</li><li>SEO</li><li>Responsive</li></ul>
+            </div></div>
+          </li>
+          <li class="service-item" tabindex="0">
+            <div class="service-top"><span class="num">03</span><h3 class="service-title">Direction artistique</h3><span class="service-plus">+</span></div>
+            <div class="service-body"><div class="service-body-inner">
+              <p>Un suivi de marque dans la durée : campagnes, cohérence visuelle et accompagnement créatif au fil des projets.</p>
+              <ul class="service-tags"><li>Suivi de marque</li><li>Campagnes</li><li>Social media</li><li>Art direction</li></ul>
+            </div></div>
+          </li>
+          <li class="service-item" tabindex="0">
+            <div class="service-top"><span class="num">04</span><h3 class="service-title">Print</h3><span class="service-plus">+</span></div>
+            <div class="service-body"><div class="service-body-inner">
+              <p>Édition, packaging et signalétique : donner une présence physique et soignée à votre identité visuelle.</p>
+              <ul class="service-tags"><li>Édition</li><li>Packaging</li><li>Signalétique</li><li>Affiches</li></ul>
+            </div></div>
+          </li>
+        </ul>
+      </div>
+      <div class="service-visual">
+        <img src="https://picsum.photos/seed/studionze-services/900/1150" alt="Visuel temporaire illustrant les services de Studio Onze, à remplacer par une vraie réalisation" loading="lazy" width="900" height="1150">
+      </div>
     </div>
   </section>
 
