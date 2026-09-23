@@ -1,6 +1,6 @@
 :root{
   --bg:#EAEBE5; --ink:#111110; --stone:#6E6E66; --line:#D4D5CD; --panel:#DFE0D8;
-  --accent:#CFEA00; --accent-ink:#111110; --maxw:1320px; --pad:clamp(20px,6vw,64px);
+  --accent:#CFEA00; --accent-ink:#111110; --maxw:none; --pad:clamp(20px,6vw,64px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){ --bg:#111110; --ink:#F3F3EE; --stone:#9B9B90; --line:#2C2C28; --panel:#1B1B18; }
@@ -187,3 +187,22 @@ footer{ padding:4rem 0; }
   .service-body-inner{ padding-left:0; flex-direction:column-reverse; }
   .service-photo{ width:100%; max-width:100%; }
 }
+
+/* --- Travaux récents (home) : filmstrip plein écran + catégories --- */
+.travaux-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:1.5rem; flex-wrap:wrap; margin-bottom:2.8rem; }
+.travaux-head h2{ font-size:clamp(2.2rem,6.4vw,5rem); text-transform:uppercase; font-weight:600; letter-spacing:-0.01em; }
+.travaux-head .caps{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
+.filmstrip{ display:flex; width:100%; }
+.filmstrip-item{ flex:1; min-width:0; position:relative; text-decoration:none; display:block; }
+.filmstrip-label{ text-align:center; font-size:.65rem; text-transform:uppercase; letter-spacing:.08em; color:var(--stone); padding:.9rem 0; }
+.filmstrip-img{ aspect-ratio:3/4; overflow:hidden; background:var(--panel); }
+.filmstrip-img img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s cubic-bezier(.2,.8,.2,1); }
+.filmstrip-item:hover .filmstrip-img img{ transform:scale(1.05); }
+@media (max-width:800px){ .filmstrip{ overflow-x:auto; } .filmstrip-item{ flex:0 0 60vw; } }
+
+.cat-list{ list-style:none; margin:3.5rem 0 0; padding:0; }
+.cat-item{ display:flex; align-items:baseline; gap:1.4rem; border-top:1px solid var(--line); padding:1.6rem 0; transition:color .25s ease; }
+.cat-item:last-child{ border-bottom:1px solid var(--line); }
+.cat-item:hover{ color:var(--stone); }
+.cat-item .num{ font-size:.8rem; color:var(--stone); width:2.2rem; flex-shrink:0; }
+.cat-name{ font-size:clamp(2rem,6.2vw,4.4rem); text-transform:uppercase; font-weight:600; letter-spacing:-0.01em; margin:0; }
