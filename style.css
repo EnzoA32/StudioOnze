@@ -226,5 +226,6 @@ footer{ padding:4rem 0; }
 .quote-section{ padding:5.5rem 0; }
 .quote-block{ max-width:110ch; margin:0 auto; text-align:center; }
 .quote-text{ font-size:40px; font-weight:300; line-height:1.4; letter-spacing:-0.01em; text-transform:uppercase; margin:0; }
-.quote-text mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.clients-title{ text-align:center; text-transform:uppercase; margin-bottom:2.6rem; }
 .quote-cite{ display:block; margin-top:1.6rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.1em; color:var(--stone); font-style:normal; }
