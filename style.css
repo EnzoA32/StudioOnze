@@ -172,7 +172,7 @@ footer{ padding:4rem 0; }
 .service-item:last-child{ border-bottom:1px solid var(--line); }
 .service-top{ display:flex; align-items:flex-start; gap:1.3rem; padding:1.5rem 0 .3rem; cursor:default; }
 .service-top .num{ font-size:.82rem; color:var(--stone); margin-top:.9em; width:2rem; flex-shrink:0; }
-.service-title{ text-transform:lowercase; font-size:clamp(2.6rem,8.2vw,6.4rem); font-weight:800; line-height:.86; letter-spacing:-0.03em; margin:0; max-width:82%; color:var(--ink); }
+.service-title{ text-transform:uppercase; font-size:clamp(2.2rem,6.4vw,4.6rem); font-weight:800; line-height:.86; letter-spacing:-0.03em; margin:0; max-width:82%; color:var(--ink); }
 .service-body{ max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.2,.8,.2,1); }
 .service-item:hover .service-body, .service-item:focus-within .service-body{ max-height:420px; }
 .service-body-inner{ display:flex; gap:2.4rem; padding:.4rem 0 2.3rem 3.3rem; align-items:flex-start; flex-wrap:wrap; }
