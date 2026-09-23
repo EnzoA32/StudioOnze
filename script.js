@@ -30,7 +30,7 @@ document.querySelectorAll('.navlinks a, .mobilemenu a').forEach(a => {
   if (a.getAttribute('href') === path) a.classList.add('active');
 });
 
-// Filmstrip Travaux récents : la molette verticale fait défiler horizontalement
+// Filmstrip Travaux récents : molette verticale → défilement horizontal + glisser à la souris
 const filmstrip = document.querySelector('.filmstrip');
 if (filmstrip) {
   filmstrip.addEventListener('wheel', (e) => {
@@ -39,6 +39,26 @@ if (filmstrip) {
       filmstrip.scrollLeft += e.deltaY;
     }
   }, { passive: false });
+
+  let dragging = false, startX = 0, startScroll = 0;
+  filmstrip.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse') return; // le tactile garde son scroll natif
+    dragging = true;
+    filmstrip.classList.add('dragging');
+    filmstrip.setPointerCapture(e.pointerId);
+    startX = e.clientX;
+    startScroll = filmstrip.scrollLeft;
+  });
+  filmstrip.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    filmstrip.scrollLeft = startScroll - (e.clientX - startX);
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt => {
+    filmstrip.addEventListener(evt, () => {
+      dragging = false;
+      filmstrip.classList.remove('dragging');
+    });
+  });
 }
 
 // Bascule Grille / Liste + filtre par type sur la page Travaux
