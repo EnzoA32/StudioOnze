@@ -30,17 +30,35 @@ document.querySelectorAll('.navlinks a, .mobilemenu a').forEach(a => {
   if (a.getAttribute('href') === path) a.classList.add('active');
 });
 
-// Filmstrip Travaux récents : molette verticale → défilement horizontal + glisser à la souris
+// Filmstrip Travaux récents : molette → défilement horizontal fluide (lerp),
+// et une fois la fin du bandeau atteinte, la molette reprend le scroll normal de la page.
 const filmstrip = document.querySelector('.filmstrip');
 if (filmstrip) {
-  filmstrip.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-      e.preventDefault();
-      filmstrip.scrollLeft += e.deltaY;
+  const travauxSection = document.getElementById('travaux') || filmstrip;
+  let target = filmstrip.scrollLeft;
+  let dragging = false, startX = 0, startScroll = 0;
+
+  function maxScroll(){ return filmstrip.scrollWidth - filmstrip.clientWidth; }
+
+  travauxSection.addEventListener('wheel', (e) => {
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    const max = maxScroll();
+    const goingForward = delta > 0;
+    const atEnd = target >= max - 1;
+    const atStart = target <= 1;
+    if ((goingForward && atEnd) || (!goingForward && atStart)) {
+      return; // on laisse la page défiler normalement
     }
+    e.preventDefault();
+    target = Math.min(Math.max(target + delta, 0), max);
   }, { passive: false });
 
-  let dragging = false, startX = 0, startScroll = 0;
+  function animate(){
+    filmstrip.scrollLeft += (target - filmstrip.scrollLeft) * 0.14;
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
   filmstrip.addEventListener('pointerdown', (e) => {
     if (e.pointerType !== 'mouse') return; // le tactile garde son scroll natif
     dragging = true;
@@ -51,7 +69,8 @@ if (filmstrip) {
   });
   filmstrip.addEventListener('pointermove', (e) => {
     if (!dragging) return;
-    filmstrip.scrollLeft = startScroll - (e.clientX - startX);
+    target = Math.min(Math.max(startScroll - (e.clientX - startX), 0), maxScroll());
+    filmstrip.scrollLeft = target;
   });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt => {
     filmstrip.addEventListener(evt, () => {

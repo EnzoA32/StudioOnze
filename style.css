@@ -1,6 +1,15 @@
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_THIN.OTF') format('opentype'); font-weight:100; font-style:normal; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_LIGHT.OTF') format('opentype'); font-weight:300; font-style:normal; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_LIGHT_ITALIC.OTF') format('opentype'); font-weight:300; font-style:italic; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_REGULAR_EXTENDED.OTF') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_MEDIUM.OTF') format('opentype'); font-weight:500; font-style:normal; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_MEDIUM_ITALIC.OTF') format('opentype'); font-weight:500; font-style:italic; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_BOLD.OTF') format('opentype'); font-weight:700; font-style:normal; font-display:swap; }
+@font-face{ font-family:'Swiss721'; src:url('assets/fonts/SWISS_721_BLACK.OTF') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
+
 :root{
   --bg:#EAEBE5; --ink:#111110; --stone:#6E6E66; --line:#D4D5CD; --panel:#DFE0D8;
-  --accent:#CFEA00; --accent-ink:#111110; --maxw:none; --pad:clamp(20px,6vw,64px);
+  --accent:#D5FF92; --accent-ink:#111110; --maxw:none; --pad:clamp(20px,6vw,64px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){ --bg:#111110; --ink:#F3F3EE; --stone:#9B9B90; --line:#2C2C28; --panel:#1B1B18; }
@@ -10,13 +19,14 @@
 html{scroll-behavior:smooth;}
 body{
   margin:0; background:var(--bg); color:var(--ink);
-  font-family:'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  font-family:'Swiss721', 'Helvetica Neue', Arial, sans-serif;
+  font-weight:400;
   font-size:1rem; line-height:1.4; -webkit-font-smoothing:antialiased;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 a{color:inherit;} img{max-width:100%; display:block;}
 ::selection{ background:var(--accent); color:var(--accent-ink); }
-.char{ font-family:'Archivo', sans-serif; font-style:italic; font-weight:400; }
+.char{ font-family:'Swiss721', sans-serif; font-style:italic; font-weight:500; }
 .wrap{ max-width:var(--maxw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad); }
 .caps{ text-transform:uppercase; letter-spacing:.12em; font-size:.72rem; font-weight:500; color:var(--stone); }
 
@@ -173,7 +183,7 @@ footer{ padding:4rem 0; }
 .service-item:last-child{ border-bottom:1px solid var(--line); }
 .service-top{ display:flex; align-items:flex-start; gap:1.3rem; padding:1.5rem 0 .3rem; cursor:default; }
 .service-top .num{ font-size:.82rem; color:var(--stone); margin-top:.9em; width:2rem; flex-shrink:0; }
-.service-title{ text-transform:uppercase; font-size:clamp(2.6rem,8vw,6.6rem); font-weight:800; line-height:.86; letter-spacing:-0.03em; margin:0; max-width:88%; color:var(--ink); }
+.service-title{ text-transform:uppercase; font-size:clamp(2.6rem,8vw,6.6rem); font-weight:300; line-height:.86; letter-spacing:-0.03em; margin:0; max-width:88%; color:var(--ink); }
 .service-body{ max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.2,.8,.2,1); }
 .service-item:hover .service-body, .service-item:focus-within .service-body{ max-height:480px; }
 .service-body-inner{ display:flex; gap:2.4rem; padding:.4rem 0 2.3rem 3.3rem; align-items:flex-start; flex-wrap:wrap; }
@@ -191,7 +201,7 @@ footer{ padding:4rem 0; }
 
 /* --- Travaux récents (home) : filmstrip plein écran + catégories --- */
 .travaux-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:1.5rem; flex-wrap:wrap; margin-bottom:2.8rem; }
-.travaux-head h2{ font-size:clamp(2.2rem,6.4vw,5rem); text-transform:uppercase; font-weight:600; letter-spacing:-0.01em; }
+.travaux-head h2{ font-size:clamp(2.2rem,6.4vw,5rem); text-transform:uppercase; font-weight:300; letter-spacing:-0.01em; }
 .travaux-head .caps{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
 .filmstrip{ display:flex; gap:1.1rem; width:100%; overflow-x:auto; cursor:grab; padding-bottom:.6rem; scrollbar-width:thin; scrollbar-color:var(--stone) transparent; }
 .filmstrip::-webkit-scrollbar{ height:4px; }
@@ -210,4 +220,11 @@ footer{ padding:4rem 0; }
 .cat-item:last-child{ border-bottom:1px solid var(--line); }
 .cat-item:hover{ color:var(--stone); }
 .cat-item .num{ font-size:.8rem; color:var(--stone); width:2.2rem; flex-shrink:0; }
-.cat-name{ font-size:clamp(2rem,6.2vw,4.4rem); text-transform:uppercase; font-weight:600; letter-spacing:-0.01em; margin:0; }
+.cat-name{ font-size:clamp(2rem,6.2vw,4.4rem); text-transform:uppercase; font-weight:300; letter-spacing:-0.01em; margin:0; }
+
+/* --- Citation / introduction éditoriale --- */
+.quote-section{ padding:5.5rem 0; }
+.quote-block{ max-width:78ch; margin:0 auto; text-align:center; }
+.quote-text{ font-size:40px; font-weight:400; line-height:1.4; letter-spacing:-0.01em; text-transform:uppercase; margin:0; }
+.quote-text mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.quote-cite{ display:block; margin-top:1.6rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.1em; color:var(--stone); font-style:normal; }
