@@ -83,7 +83,12 @@ if (filmstrip) {
 // Transition entre pages : la page suivante se charge dans un calque qui arrive en
 // petit depuis la droite, par-dessus l'actuelle, puis grandit pour prendre tout l'écran.
 // On navigue réellement une fois l'animation terminée (le calque montre déjà le contenu réel).
-const PAGES = ['index.html', 'travaux.html', 'apropos.html', 'contact.html', 'projet-nova-editions.html'];
+const PAGES = [
+  'index.html', 'travaux.html', 'apropos.html', 'contact.html',
+  'projet-nova-editions.html', 'projet-atelier-mareges.html', 'projet-maison-verre.html',
+  'projet-klint-studio.html', 'projet-perle-noire.html', 'projet-rivage-studio.html',
+  'projet-freres-laurent.html', 'projet-manufacture-rive.html'
+];
 
 function startPageTransition(href){
   const overlay = document.createElement('div');
