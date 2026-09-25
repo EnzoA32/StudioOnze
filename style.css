@@ -17,10 +17,10 @@
 :root[data-theme="dark"]{ --bg:#111110; --ink:#F3F3EE; --stone:#9B9B90; --line:#2C2C28; --panel:#1B1B18; }
 *{box-sizing:border-box;}
 html{ background:#9C9C8E; }
-body{ transform-origin:center; transition:transform .5s cubic-bezier(.65,0,.35,1), border-radius .5s cubic-bezier(.65,0,.35,1); }
-body.page-shrink{ transform:scale(.94); border-radius:22px; overflow:hidden; }
+.page-wrap{ background:var(--bg); min-height:100vh; transform-origin:center; transition:transform .6s cubic-bezier(.65,0,.35,1), border-radius .6s cubic-bezier(.65,0,.35,1); will-change:transform; }
+.page-wrap.page-shrink{ transform:scale(.94); border-radius:22px; overflow:hidden; }
 body{
-  margin:0; background:var(--bg); color:var(--ink);
+  margin:0; background:#9C9C8E; color:var(--ink);
   font-family:'Swiss721', 'Helvetica Neue', Arial, sans-serif;
   font-weight:300;
   font-size:1rem; line-height:1.4; -webkit-font-smoothing:antialiased;

@@ -81,23 +81,27 @@ if (filmstrip) {
 }
 
 // Transition entre pages : la page actuelle se réduit, puis la nouvelle page
-// s'agrandit depuis cet état réduit (effet "zoom out / zoom in" façon Brandon Yasin)
+// s'agrandit depuis cet état réduit (effet "zoom out / zoom in" façon Brandon Yasin).
+// On anime un wrapper interne plutôt que <body> pour ne pas casser le header sticky.
 const PAGES = ['index.html', 'travaux.html', 'apropos.html', 'contact.html'];
-document.body.classList.add('page-shrink');
-requestAnimationFrame(() => requestAnimationFrame(() => {
-  document.body.classList.remove('page-shrink');
-}));
+const pageWrap = document.getElementById('pageWrap');
+if (pageWrap) {
+  // état initial déjà réduit en HTML (classe posée dans le markup) → on relâche au frame suivant
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    pageWrap.classList.remove('page-shrink');
+  }));
 
-document.addEventListener('click', (e) => {
-  const link = e.target.closest('a[href]');
-  if (!link) return;
-  const href = link.getAttribute('href');
-  if (!PAGES.includes(href)) return;
-  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || link.target === '_blank') return;
-  e.preventDefault();
-  document.body.classList.add('page-shrink');
-  setTimeout(() => { window.location.href = href; }, 480);
-});
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!PAGES.includes(href)) return;
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || link.target === '_blank') return;
+    e.preventDefault();
+    pageWrap.classList.add('page-shrink');
+    setTimeout(() => { window.location.href = href; }, 600);
+  });
+}
 
 // Bascule Grille / Liste + filtre par type sur la page Travaux
 const viewBtns = document.querySelectorAll('.view-toggle button');
