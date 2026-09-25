@@ -83,7 +83,7 @@ if (filmstrip) {
 // Transition entre pages : la page suivante se charge dans un calque qui arrive en
 // petit depuis la droite, par-dessus l'actuelle, puis grandit pour prendre tout l'écran.
 // On navigue réellement une fois l'animation terminée (le calque montre déjà le contenu réel).
-const PAGES = ['index.html', 'travaux.html', 'apropos.html', 'contact.html'];
+const PAGES = ['index.html', 'travaux.html', 'apropos.html', 'contact.html', 'projet-nova-editions.html'];
 
 function startPageTransition(href){
   const overlay = document.createElement('div');
