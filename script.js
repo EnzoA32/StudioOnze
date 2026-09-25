@@ -91,6 +91,9 @@ const PAGES = [
 ];
 
 function startPageTransition(href){
+  const currentWrap = document.getElementById('pageWrap');
+  if (currentWrap) currentWrap.classList.add('page-recede');
+
   const overlay = document.createElement('div');
   overlay.id = 'navOverlay';
   const iframe = document.createElement('iframe');
@@ -104,7 +107,7 @@ function startPageTransition(href){
     revealed = true;
     requestAnimationFrame(() => requestAnimationFrame(() => {
       overlay.classList.add('active');
-      setTimeout(() => { window.location.href = href; }, 700);
+      setTimeout(() => { window.location.href = href; }, 780);
     }));
   }
   iframe.addEventListener('load', reveal);
