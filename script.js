@@ -80,33 +80,41 @@ if (filmstrip) {
   });
 }
 
-// Transition entre pages : glissement + léger zoom, coordonné entre l'ancienne et la
-// nouvelle page via sessionStorage (fonctionne aussi en test local, sans dépendre
-// d'une API navigateur encore inégalement supportée).
+// Transition entre pages : la page suivante se charge dans un calque qui arrive en
+// petit depuis la droite, par-dessus l'actuelle, puis grandit pour prendre tout l'écran.
+// On navigue réellement une fois l'animation terminée (le calque montre déjà le contenu réel).
 const PAGES = ['index.html', 'travaux.html', 'apropos.html', 'contact.html'];
-const NAV_KEY = 'onze-page-transition';
-const pageWrap = document.getElementById('pageWrap');
-if (pageWrap) {
-  if (sessionStorage.getItem(NAV_KEY)) {
-    sessionStorage.removeItem(NAV_KEY);
-    pageWrap.classList.add('page-enter-start'); // posé avant le premier paint → pas de flash
+
+function startPageTransition(href){
+  const overlay = document.createElement('div');
+  overlay.id = 'navOverlay';
+  const iframe = document.createElement('iframe');
+  iframe.src = href;
+  overlay.appendChild(iframe);
+  document.body.appendChild(overlay);
+
+  let revealed = false;
+  function reveal(){
+    if (revealed) return;
+    revealed = true;
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      pageWrap.classList.remove('page-enter-start');
+      overlay.classList.add('active');
+      setTimeout(() => { window.location.href = href; }, 700);
     }));
   }
-
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!PAGES.includes(href)) return;
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || link.target === '_blank') return;
-    e.preventDefault();
-    sessionStorage.setItem(NAV_KEY, '1');
-    pageWrap.classList.add('page-exit-active');
-    setTimeout(() => { window.location.href = href; }, 480);
-  });
+  iframe.addEventListener('load', reveal);
+  setTimeout(reveal, 500); // secours si le chargement de la page suivante traîne
 }
+
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href]');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  if (!PAGES.includes(href)) return;
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || link.target === '_blank') return;
+  e.preventDefault();
+  startPageTransition(href);
+});
 
 // Bascule Grille / Liste + filtre par type sur la page Travaux
 const viewBtns = document.querySelectorAll('.view-toggle button');
