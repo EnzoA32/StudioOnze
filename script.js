@@ -80,16 +80,20 @@ if (filmstrip) {
   });
 }
 
-// Transition entre pages : la page actuelle se réduit, puis la nouvelle page
-// s'agrandit depuis cet état réduit (effet "zoom out / zoom in" façon Brandon Yasin).
-// On anime un wrapper interne plutôt que <body> pour ne pas casser le header sticky.
+// Transition entre pages : glissement + léger zoom, coordonné entre l'ancienne et la
+// nouvelle page via sessionStorage (fonctionne aussi en test local, sans dépendre
+// d'une API navigateur encore inégalement supportée).
 const PAGES = ['index.html', 'travaux.html', 'apropos.html', 'contact.html'];
+const NAV_KEY = 'onze-page-transition';
 const pageWrap = document.getElementById('pageWrap');
 if (pageWrap) {
-  // état initial déjà réduit en HTML (classe posée dans le markup) → on relâche au frame suivant
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    pageWrap.classList.remove('page-shrink');
-  }));
+  if (sessionStorage.getItem(NAV_KEY)) {
+    sessionStorage.removeItem(NAV_KEY);
+    pageWrap.classList.add('page-enter-start'); // posé avant le premier paint → pas de flash
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      pageWrap.classList.remove('page-enter-start');
+    }));
+  }
 
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href]');
@@ -98,8 +102,9 @@ if (pageWrap) {
     if (!PAGES.includes(href)) return;
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || link.target === '_blank') return;
     e.preventDefault();
-    pageWrap.classList.add('page-shrink');
-    setTimeout(() => { window.location.href = href; }, 450);
+    sessionStorage.setItem(NAV_KEY, '1');
+    pageWrap.classList.add('page-exit-active');
+    setTimeout(() => { window.location.href = href; }, 480);
   });
 }
 
