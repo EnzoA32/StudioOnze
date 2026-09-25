@@ -185,7 +185,7 @@ footer{ padding:4rem 0; }
 .service-item:last-child{ border-bottom:1px solid var(--line); }
 .service-top{ display:flex; align-items:flex-start; gap:1.3rem; padding:1.5rem 0 .3rem; cursor:default; }
 .service-top .num{ font-size:.82rem; color:var(--stone); margin-top:.9em; width:2rem; flex-shrink:0; }
-.service-title{ text-transform:uppercase; font-size:clamp(2.6rem,8vw,6.6rem); font-weight:400; line-height:.86; letter-spacing:-0.03em; margin:0; max-width:88%; color:var(--ink); }
+.service-title{ text-transform:uppercase; font-size:clamp(2.6rem,8vw,6.6rem); font-weight:500; line-height:.86; letter-spacing:-0.03em; margin:0; max-width:88%; color:var(--ink); }
 .service-body{ max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.2,.8,.2,1); }
 .service-item:hover .service-body, .service-item:focus-within .service-body{ max-height:480px; }
 .service-body-inner{ display:flex; gap:2.4rem; padding:.4rem 0 2.3rem 3.3rem; align-items:flex-start; flex-wrap:wrap; }
@@ -203,7 +203,7 @@ footer{ padding:4rem 0; }
 
 /* --- Travaux récents (home) : filmstrip plein écran + catégories --- */
 .travaux-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:1.5rem; flex-wrap:wrap; margin-bottom:2.8rem; }
-.travaux-head h2{ font-size:clamp(2.2rem,6.4vw,5rem); text-transform:uppercase; font-weight:400; letter-spacing:-0.01em; }
+.travaux-head h2{ font-size:clamp(2.2rem,6.4vw,5rem); text-transform:uppercase; font-weight:500; letter-spacing:-0.01em; }
 .travaux-head .caps{ display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; }
 .filmstrip{ display:flex; gap:1.1rem; width:100%; overflow-x:auto; cursor:grab; padding-bottom:.6rem; scrollbar-width:thin; scrollbar-color:var(--stone) transparent; }
 .filmstrip::-webkit-scrollbar{ height:4px; }
@@ -222,12 +222,12 @@ footer{ padding:4rem 0; }
 .cat-item:last-child{ border-bottom:1px solid var(--line); }
 .cat-item:hover{ color:var(--stone); }
 .cat-item .num{ font-size:.8rem; color:var(--stone); width:2.2rem; flex-shrink:0; }
-.cat-name{ font-size:clamp(2rem,6.2vw,4.4rem); text-transform:uppercase; font-weight:400; letter-spacing:-0.01em; margin:0; }
+.cat-name{ font-size:clamp(2rem,6.2vw,4.4rem); text-transform:uppercase; font-weight:500; letter-spacing:-0.01em; margin:0; }
 
 /* --- Citation / introduction éditoriale --- */
 .quote-section{ padding:5.5rem 0; }
 .quote-block{ max-width:110ch; margin:0 auto; text-align:center; }
-.quote-text{ font-size:40px; font-weight:400; line-height:1.4; letter-spacing:-0.01em; text-transform:uppercase; margin:0; }
+.quote-text{ font-size:40px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; text-transform:uppercase; margin:0; }
 mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
 .clients-title{ text-align:center; text-transform:uppercase; margin-bottom:2.6rem; }
 .quote-cite{ display:block; margin-top:1.6rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.1em; color:var(--stone); font-style:normal; }
