@@ -99,7 +99,7 @@ if (pageWrap) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || link.target === '_blank') return;
     e.preventDefault();
     pageWrap.classList.add('page-shrink');
-    setTimeout(() => { window.location.href = href; }, 600);
+    setTimeout(() => { window.location.href = href; }, 450);
   });
 }
 
