@@ -117,7 +117,7 @@ if (filmstrip) {
 // grandit pour prendre tout l'écran (façon "Time Travel"). On navigue réellement une
 // fois l'animation terminée (la carte montre déjà le contenu réel de la page suivante).
 const PAGES = [
-  'index.html', 'travaux.html', 'apropos.html', 'contact.html',
+  'index.html', 'projets.html', 'apropos.html', 'contact.html',
   'projet-nova-editions.html', 'projet-atelier-mareges.html', 'projet-maison-verre.html',
   'projet-klint-studio.html', 'projet-perle-noire.html', 'projet-rivage-studio.html',
   'projet-freres-laurent.html', 'projet-manufacture-rive.html'
