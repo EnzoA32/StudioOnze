@@ -113,6 +113,8 @@ h2{ font-size:clamp(1.8rem,4.2vw,3.2rem); font-weight:300; }
 .about-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:4.5rem; align-items:start; }
 @media (max-width:800px){ .about-grid{ grid-template-columns:1fr; } }
 .about-name{ font-size:clamp(2.4rem,7vw,5rem); font-weight:400; text-transform:uppercase; letter-spacing:-0.02em; margin:0; }
+.enzo-name{ display:block; font-size:clamp(3.2rem,13vw,9rem); font-weight:700; line-height:.85; letter-spacing:-0.02em; margin:0; }
+.enzo-name sup{ font-size:.3em; font-weight:400; margin-left:.1em; }
 .about-photo-row{ display:flex; justify-content:center; }
 .about-photo{ aspect-ratio:3/4; width:min(420px,60vw); background:linear-gradient(155deg,var(--panel),var(--line)); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--stone); font-size:.85rem; }
 .about-liam-text{ display:grid; grid-template-columns:1fr 2fr 2fr; gap:2.4rem; padding-top:2.2rem; border-top:1px solid var(--line); align-items:start; margin-bottom:2.6rem; }
