@@ -1,3 +1,22 @@
+// Curseur personnalisé : un rond vert acide translucide qui remplace le curseur
+// natif au survol des éléments cliquables (liens, boutons, cartes...).
+if (matchMedia('(pointer:fine)').matches) {
+  const dot = document.createElement('div');
+  dot.id = 'cursorDot';
+  document.body.appendChild(dot);
+  window.addEventListener('mousemove', (e) => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+  });
+  const HOVER_SEL = 'a, button, .filmstrip-item, .grid-card, .service-item, input, select, textarea';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(HOVER_SEL)) dot.classList.add('show');
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(HOVER_SEL) && !e.relatedTarget?.closest(HOVER_SEL)) dot.classList.remove('show');
+  });
+}
+
 // Menu mobile
 const burger = document.getElementById('burgerBtn');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -36,12 +55,14 @@ const filmstrip = document.querySelector('.filmstrip');
 if (filmstrip) {
   const travauxSection = document.getElementById('travaux') || filmstrip;
   let target = filmstrip.scrollLeft;
-  let dragging = false, startX = 0, startScroll = 0;
+  let pending = false, dragging = false, startX = 0, startScroll = 0, pointerId = null;
+  const DRAG_THRESHOLD = 6; // en dessous de ça, on considère que c'est un clic, pas un glisser
 
   function maxScroll(){ return filmstrip.scrollWidth - filmstrip.clientWidth; }
 
   travauxSection.addEventListener('wheel', (e) => {
-    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    const rawDelta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    const delta = Math.max(-140, Math.min(140, rawDelta)); // évite les à-coups des gros deltas trackpad
     const max = maxScroll();
     const goingForward = delta > 0;
     const atEnd = target >= max - 1;
@@ -54,35 +75,47 @@ if (filmstrip) {
   }, { passive: false });
 
   function animate(){
-    filmstrip.scrollLeft += (target - filmstrip.scrollLeft) * 0.14;
+    // pendant un glisser actif, le scroll suit directement le doigt/la souris (pas de lissage)
+    if (!dragging) {
+      const diff = target - filmstrip.scrollLeft;
+      filmstrip.scrollLeft += Math.abs(diff) < 0.5 ? diff : diff * 0.22;
+    }
     requestAnimationFrame(animate);
   }
   requestAnimationFrame(animate);
 
   filmstrip.addEventListener('pointerdown', (e) => {
     if (e.pointerType !== 'mouse') return; // le tactile garde son scroll natif
-    dragging = true;
-    filmstrip.classList.add('dragging');
-    filmstrip.setPointerCapture(e.pointerId);
+    pending = true;
+    pointerId = e.pointerId;
     startX = e.clientX;
     startScroll = filmstrip.scrollLeft;
   });
   filmstrip.addEventListener('pointermove', (e) => {
-    if (!dragging) return;
-    target = Math.min(Math.max(startScroll - (e.clientX - startX), 0), maxScroll());
+    if (!pending) return;
+    const moved = e.clientX - startX;
+    if (!dragging) {
+      if (Math.abs(moved) < DRAG_THRESHOLD) return; // pas encore assez de mouvement : reste un clic
+      dragging = true;
+      filmstrip.classList.add('dragging');
+      filmstrip.setPointerCapture(pointerId);
+    }
+    target = Math.min(Math.max(startScroll - moved, 0), maxScroll());
     filmstrip.scrollLeft = target;
   });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt => {
     filmstrip.addEventListener(evt, () => {
+      pending = false;
       dragging = false;
       filmstrip.classList.remove('dragging');
     });
   });
 }
 
-// Transition entre pages : la page suivante se charge dans un calque qui arrive en
-// petit depuis la droite, par-dessus l'actuelle, puis grandit pour prendre tout l'écran.
-// On navigue réellement une fois l'animation terminée (le calque montre déjà le contenu réel).
+// Transition entre pages : la page actuelle et la suivante apparaissent un instant
+// comme deux petites cartes côte à côte sur un fond kaki, puis celle de destination
+// grandit pour prendre tout l'écran (façon "Time Travel"). On navigue réellement une
+// fois l'animation terminée (la carte montre déjà le contenu réel de la page suivante).
 const PAGES = [
   'index.html', 'travaux.html', 'apropos.html', 'contact.html',
   'projet-nova-editions.html', 'projet-atelier-mareges.html', 'projet-maison-verre.html',
@@ -91,27 +124,38 @@ const PAGES = [
 ];
 
 function startPageTransition(href){
-  const currentWrap = document.getElementById('pageWrap');
-  if (currentWrap) currentWrap.classList.add('page-recede');
-
   const overlay = document.createElement('div');
   overlay.id = 'navOverlay';
-  const iframe = document.createElement('iframe');
-  iframe.src = href;
-  overlay.appendChild(iframe);
+
+  const cardOld = document.createElement('div');
+  cardOld.className = 'nav-card';
+  const iframeOld = document.createElement('iframe');
+  iframeOld.src = location.href;
+  cardOld.appendChild(iframeOld);
+
+  const cardNew = document.createElement('div');
+  cardNew.className = 'nav-card';
+  const iframeNew = document.createElement('iframe');
+  iframeNew.src = href;
+  cardNew.appendChild(iframeNew);
+
+  overlay.appendChild(cardOld);
+  overlay.appendChild(cardNew);
   document.body.appendChild(overlay);
 
-  let revealed = false;
-  function reveal(){
-    if (revealed) return;
-    revealed = true;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      overlay.classList.add('active');
-      setTimeout(() => { window.location.href = href; }, 780);
-    }));
-  }
-  iframe.addEventListener('load', reveal);
-  setTimeout(reveal, 500); // secours si le chargement de la page suivante traîne
+  // 1) le fond apparaît, les deux cartes se posent côte à côte
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    overlay.classList.add('show');
+    cardOld.classList.add('show');
+    setTimeout(() => cardNew.classList.add('show'), 90);
+  }));
+
+  // 2) petit temps de pause pour laisser voir les deux cartes, puis la nouvelle grandit
+  setTimeout(() => {
+    cardOld.classList.add('fade-out');
+    cardNew.classList.add('grow');
+    setTimeout(() => { window.location.href = href; }, 620);
+  }, 620);
 }
 
 document.addEventListener('click', (e) => {
