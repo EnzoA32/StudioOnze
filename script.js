@@ -124,38 +124,27 @@ const PAGES = [
 ];
 
 function startPageTransition(href){
+  const currentWrap = document.getElementById('pageWrap');
+  if (currentWrap) currentWrap.classList.add('page-recede');
+
   const overlay = document.createElement('div');
   overlay.id = 'navOverlay';
-
-  const cardOld = document.createElement('div');
-  cardOld.className = 'nav-card';
-  const iframeOld = document.createElement('iframe');
-  iframeOld.src = location.href;
-  cardOld.appendChild(iframeOld);
-
-  const cardNew = document.createElement('div');
-  cardNew.className = 'nav-card';
-  const iframeNew = document.createElement('iframe');
-  iframeNew.src = href;
-  cardNew.appendChild(iframeNew);
-
-  overlay.appendChild(cardOld);
-  overlay.appendChild(cardNew);
+  const iframe = document.createElement('iframe');
+  iframe.src = href;
+  overlay.appendChild(iframe);
   document.body.appendChild(overlay);
 
-  // 1) le fond apparaît, les deux cartes se posent côte à côte
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    overlay.classList.add('show');
-    cardOld.classList.add('show');
-    setTimeout(() => cardNew.classList.add('show'), 90);
-  }));
-
-  // 2) petit temps de pause pour laisser voir les deux cartes, puis la nouvelle grandit
-  setTimeout(() => {
-    cardOld.classList.add('fade-out');
-    cardNew.classList.add('grow');
-    setTimeout(() => { window.location.href = href; }, 620);
-  }, 620);
+  let revealed = false;
+  function reveal(){
+    if (revealed) return;
+    revealed = true;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      overlay.classList.add('active');
+      setTimeout(() => { window.location.href = href; }, 780);
+    }));
+  }
+  iframe.addEventListener('load', reveal);
+  setTimeout(reveal, 500); // secours si le chargement de la page suivante traîne
 }
 
 document.addEventListener('click', (e) => {
