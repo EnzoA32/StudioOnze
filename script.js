@@ -80,9 +80,10 @@ if (filmstrip) {
   });
 }
 
-// Transition entre pages : la page suivante se charge dans un calque qui arrive en
-// petit depuis la droite, par-dessus l'actuelle, puis grandit pour prendre tout l'écran.
-// On navigue réellement une fois l'animation terminée (le calque montre déjà le contenu réel).
+// Transition entre pages : la page actuelle et la suivante apparaissent un instant
+// comme deux petites cartes côte à côte sur un fond kaki, puis celle de destination
+// grandit pour prendre tout l'écran (façon "Time Travel"). On navigue réellement une
+// fois l'animation terminée (la carte montre déjà le contenu réel de la page suivante).
 const PAGES = [
   'index.html', 'travaux.html', 'apropos.html', 'contact.html',
   'projet-nova-editions.html', 'projet-atelier-mareges.html', 'projet-maison-verre.html',
@@ -91,27 +92,38 @@ const PAGES = [
 ];
 
 function startPageTransition(href){
-  const currentWrap = document.getElementById('pageWrap');
-  if (currentWrap) currentWrap.classList.add('page-recede');
-
   const overlay = document.createElement('div');
   overlay.id = 'navOverlay';
-  const iframe = document.createElement('iframe');
-  iframe.src = href;
-  overlay.appendChild(iframe);
+
+  const cardOld = document.createElement('div');
+  cardOld.className = 'nav-card';
+  const iframeOld = document.createElement('iframe');
+  iframeOld.src = location.href;
+  cardOld.appendChild(iframeOld);
+
+  const cardNew = document.createElement('div');
+  cardNew.className = 'nav-card';
+  const iframeNew = document.createElement('iframe');
+  iframeNew.src = href;
+  cardNew.appendChild(iframeNew);
+
+  overlay.appendChild(cardOld);
+  overlay.appendChild(cardNew);
   document.body.appendChild(overlay);
 
-  let revealed = false;
-  function reveal(){
-    if (revealed) return;
-    revealed = true;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      overlay.classList.add('active');
-      setTimeout(() => { window.location.href = href; }, 780);
-    }));
-  }
-  iframe.addEventListener('load', reveal);
-  setTimeout(reveal, 500); // secours si le chargement de la page suivante traîne
+  // 1) le fond apparaît, les deux cartes se posent côte à côte
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    overlay.classList.add('show');
+    cardOld.classList.add('show');
+    setTimeout(() => cardNew.classList.add('show'), 90);
+  }));
+
+  // 2) petit temps de pause pour laisser voir les deux cartes, puis la nouvelle grandit
+  setTimeout(() => {
+    cardOld.classList.add('fade-out');
+    cardNew.classList.add('grow');
+    setTimeout(() => { window.location.href = href; }, 620);
+  }, 620);
 }
 
 document.addEventListener('click', (e) => {
