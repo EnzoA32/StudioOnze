@@ -32,16 +32,16 @@ if (burger) {
 }
 
 // Theme clair/sombre
-const themeBtn = document.getElementById('themeToggle');
-if (themeBtn) {
-  themeBtn.addEventListener('click', () => {
-    const root = document.documentElement;
-    const current = root.getAttribute('data-theme');
-    if (current === 'dark') { root.setAttribute('data-theme', 'light'); }
-    else if (current === 'light') { root.removeAttribute('data-theme'); }
-    else { root.setAttribute('data-theme', 'dark'); }
-  });
+function toggleTheme(){
+  const root = document.documentElement;
+  const current = root.getAttribute('data-theme');
+  if (current === 'dark') { root.setAttribute('data-theme', 'light'); }
+  else if (current === 'light') { root.removeAttribute('data-theme'); }
+  else { root.setAttribute('data-theme', 'dark'); }
 }
+document.querySelectorAll('#themeToggle, #themeToggleFooter').forEach(btn => {
+  btn.addEventListener('click', toggleTheme);
+});
 
 // Lien actif dans la nav selon la page courante
 const path = location.pathname.split('/').pop() || 'index.html';
