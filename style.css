@@ -305,29 +305,30 @@ mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-de
 
 /* --- CTA "Un projet en tête ?" avant le footer --- */
 .home-cta{ text-align:center; padding:7rem 0; }
-.home-cta h2{ font-size:clamp(2.2rem,6vw,4.2rem); font-weight:400; text-transform:uppercase; letter-spacing:-0.01em; margin:0; }
+.home-cta h2{ font-size:clamp(2.2rem,6vw,4.2rem); font-weight:400; text-transform:uppercase; letter-spacing:-0.01em; line-height:1.02; margin:0; }
 .home-cta p{ max-width:52ch; margin:1.6rem auto 0; color:var(--stone); font-size:1rem; line-height:1.55; font-weight:300; }
 .home-cta .nav-cta{ margin-top:2rem; padding:.8rem 1.6rem; font-size:.78rem; }
 
-/* --- Footer riche --- */
+/* --- Footer riche (contenu inset, pas collé aux bords) --- */
 .site-footer{ background:#111110; color:#F3F3EE; }
 .site-footer a{ color:inherit; }
+.footer-inner{ padding:0 var(--pad); }
 .footer-top{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;
-  padding:1.6rem 0; border-bottom:1px solid rgba(255,255,255,.12); }
+  padding:1.1rem 0; border-bottom:1px solid rgba(255,255,255,.12); }
 .footer-top .logo-mark.small{ color:#F3F3EE; }
 .footer-loc{ font-size:.78rem; color:#9B9B93; text-transform:uppercase; letter-spacing:.05em; }
 .footer-nav{ display:flex; gap:1.8rem; list-style:none; margin:0; padding:0; font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; }
 .footer-nav a{ text-decoration:none; }
 .footer-top .themebtn{ border-color:rgba(255,255,255,.25); color:#F3F3EE; }
-.footer-cta{ padding:4.5rem 0 3rem; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:1.5rem; }
-.footer-cta h2{ font-size:clamp(2rem,5vw,3.4rem); font-weight:400; margin:0; letter-spacing:-0.01em; }
-.footer-mail{ font-size:clamp(1.3rem,3vw,2rem); text-decoration:underline; text-underline-offset:6px; }
-.footer-cols{ display:flex; flex-wrap:wrap; gap:4rem; padding-bottom:4rem; }
+.footer-cta{ padding:2.8rem 0 2.2rem; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:1.2rem; }
+.footer-cta h2{ font-size:clamp(1.8rem,4vw,2.8rem); font-weight:400; margin:0; letter-spacing:-0.01em; line-height:1.05; }
+.footer-mail{ font-size:clamp(1.15rem,2.4vw,1.7rem); text-decoration:underline; text-underline-offset:6px; }
+.footer-main{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:2rem; padding:0 0 2rem; }
+.footer-cols{ display:flex; flex-wrap:wrap; gap:3.5rem; }
 .footer-cols .caps{ color:#8f8f88; }
-.footer-cols ul{ list-style:none; margin:1rem 0 0; padding:0; display:grid; gap:.6rem; font-size:.92rem; }
+.footer-cols ul{ list-style:none; margin:.9rem 0 0; padding:0; display:grid; gap:.5rem; font-size:.9rem; }
 .footer-cols a{ text-decoration:none; }
-.footer-wordmark{ padding:1rem 0 2rem; }
-.footer-wordmark .logo-svg{ width:100%; height:auto; color:#F3F3EE; }
-.footer-bottom{ display:flex; justify-content:space-between; padding:1.6rem 0; border-top:1px solid rgba(255,255,255,.12);
+.footer-wordmark .logo-svg{ width:clamp(170px,18vw,270px); height:auto; color:#F3F3EE; display:block; }
+.footer-bottom{ display:flex; justify-content:space-between; padding:1.1rem 0; border-top:1px solid rgba(255,255,255,.12);
   font-size:.78rem; color:#9B9B93; }
 .footer-bottom a{ text-decoration:none; }
