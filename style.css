@@ -332,3 +332,13 @@ mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-de
 .footer-bottom{ display:flex; justify-content:space-between; padding:1.1rem 0; border-top:1px solid rgba(255,255,255,.12);
   font-size:.78rem; color:#9B9B93; }
 .footer-bottom a{ text-decoration:none; }
+
+/* --- Fiche projet avec vrais visuels --- */
+.gallery-grid img.natural{ aspect-ratio:auto; height:auto; }
+.palette-list small{ display:block; font-size:.72rem; opacity:.85; margin-top:.1rem; }
+.project-meta a{ text-decoration:underline; text-underline-offset:4px; }
+
+/* --- Vignette de la grille Projets avec image --- */
+.grid-thumb img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.grid-card:hover .grid-thumb img{ transform:scale(1.04); }
+.grid-thumb.has-img .grid-num{ color:#F3F3EE; text-shadow:0 1px 10px rgba(0,0,0,.45); }
