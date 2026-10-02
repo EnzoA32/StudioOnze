@@ -8,7 +8,7 @@ if (matchMedia('(pointer:fine)').matches) {
     dot.style.left = e.clientX + 'px';
     dot.style.top = e.clientY + 'px';
   });
-  const HOVER_SEL = 'a, button, .filmstrip-item, .grid-card, .service-item, input, select, textarea';
+  const HOVER_SEL = 'a, button, .filmstrip-item, .grid-card, .service-item, .tile, .acc-item, input, select, textarea';
   document.addEventListener('mouseover', (e) => {
     if (e.target.closest(HOVER_SEL)) dot.classList.add('show');
   });
@@ -203,3 +203,87 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     row.addEventListener('mouseleave', () => preview.classList.remove('show'));
   });
 }
+
+
+// Accordéons (clic / touche Entrée), apparitions au scroll et compteurs
+(function(){
+  document.querySelectorAll('.acc-item').forEach(item => {
+    const btn = item.querySelector('.acc-top');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const open = item.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(el){
+    if (reduce) return;
+    const to = parseFloat(el.dataset.count), dec = parseInt(el.dataset.dec || '0', 10);
+    const fmt = v => v.toLocaleString('fr-BE', {minimumFractionDigits:dec, maximumFractionDigits:dec});
+    const t0 = performance.now(), dur = 1400;
+    (function tick(now){
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = fmt(to * e);
+      if (k < 1) requestAnimationFrame(tick); else el.textContent = fmt(to);
+    })(t0);
+  }
+  const targets = document.querySelectorAll('.rv, .rv-img, .gauge, [data-count]');
+  if (!('IntersectionObserver' in window)) { targets.forEach(t => t.classList.add('in')); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in');
+    if (en.target.dataset.count !== undefined) countUp(en.target);
+    io.unobserve(en.target);
+  }), {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  targets.forEach(t => io.observe(t));
+})();
+
+
+// Carrousel horizontal : compteur, flèches, glisser à la souris
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-car]').forEach(car => {
+    const track = car.querySelector('.car-track');
+    const cards = [...track.querySelectorAll('.car-card')];
+    const cur = car.querySelector('.car-cur');
+    const prev = car.querySelector('[data-prev]'), next = car.querySelector('[data-next]');
+    let idx = 0;
+    const pad = n => String(n).padStart(2, '0');
+    function update(){
+      let best = 0, bd = Infinity;
+      cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - track.scrollLeft); if (d < bd) { bd = d; best = i; } });
+      idx = best;
+      cards.forEach((c, i) => c.classList.toggle('on', i === idx));
+      cur.textContent = pad(idx + 1);
+      prev.disabled = idx === 0;
+      next.disabled = idx === cards.length - 1;
+    }
+    function go(i){
+      i = Math.max(0, Math.min(cards.length - 1, i));
+      track.scrollTo({left: cards[i].offsetLeft, behavior: reduce ? 'auto' : 'smooth'});
+    }
+    prev.addEventListener('click', () => go(idx - 1));
+    next.addEventListener('click', () => go(idx + 1));
+    track.addEventListener('scroll', () => requestAnimationFrame(update), {passive:true});
+
+    let down = false, moved = false, sx = 0, sl = 0;
+    track.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = false; sx = e.clientX; sl = track.scrollLeft;
+    });
+    window.addEventListener('pointermove', e => {
+      if (!down) return;
+      const dx = e.clientX - sx;
+      if (Math.abs(dx) > 4) { moved = true; track.classList.add('dragging'); }
+      if (moved) track.scrollLeft = sl - dx;
+    });
+    window.addEventListener('pointerup', () => {
+      if (!down) return;
+      down = false;
+      if (moved) { track.classList.remove('dragging'); update(); go(idx); }
+    });
+    track.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    update();
+  });
+})();
