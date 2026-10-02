@@ -342,3 +342,51 @@ mark{ background:var(--accent); color:var(--accent-ink); padding:0 .15em; box-de
 .grid-thumb img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
 .grid-card:hover .grid-thumb img{ transform:scale(1.04); }
 .grid-thumb.has-img .grid-num{ color:#F3F3EE; text-shadow:0 1px 10px rgba(0,0,0,.45); }
+
+/* ===== Page À propos (Enzo Moreaux) ===== */
+.ab-hero{ padding:5rem 0 2.5rem; border-bottom:none; }
+.ab-hero .about-name{ margin-top:1rem; }
+.ab-role{ margin:1.4rem 0 0; color:var(--stone); font-size:1.15rem; font-weight:300; }
+.ab-block{ padding:6rem 0; }
+.ab-intro-sec{ padding-top:2rem; }
+.ab-intro{ display:grid; grid-template-columns:minmax(240px,420px) 1fr; gap:4.5rem; align-items:start; }
+.ab-intro .about-photo{ width:100%; }
+.ab-lede{ font-size:clamp(1.4rem,2.6vw,2.2rem); line-height:1.3; font-weight:300; letter-spacing:-0.01em; margin:0 0 2rem; color:var(--ink); }
+.ab-intro-text p:not(.ab-lede), .ab-story p{ color:var(--stone); font-size:1.02rem; line-height:1.7; font-weight:300; margin:0 0 1.2rem; max-width:62ch; }
+.ab-head{ display:flex; flex-direction:column; gap:.8rem; margin-bottom:3rem; }
+.ab-head h2{ font-size:clamp(1.8rem,4.2vw,3.2rem); }
+.ab-story{ columns:2; column-gap:4rem; margin-bottom:4rem; }
+.ab-story p{ break-inside:avoid; }
+.ab-timeline{ list-style:none; padding:0; margin:0; }
+.ab-timeline li{ display:grid; grid-template-columns:1fr 3fr; gap:2rem; padding:1.4rem 0; border-top:1px solid var(--line); align-items:baseline; }
+.ab-timeline li:last-child{ border-bottom:1px solid var(--line); }
+.ab-timeline h3{ font-size:1.15rem; font-weight:400; margin:0; }
+.ab-timeline p{ margin:.25rem 0 0; color:var(--stone); font-size:.92rem; }
+.ab-steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:3rem; }
+.ab-steps > div{ border-top:1px solid var(--line); padding-top:1.4rem; }
+.ab-steps .num{ color:var(--stone); font-size:.82rem; }
+.ab-steps h3{ font-size:1.6rem; font-weight:300; margin:.6rem 0 1rem; letter-spacing:-0.01em; }
+.ab-steps p{ color:var(--stone); line-height:1.65; margin:0; font-size:.98rem; }
+.ab-skills{ display:grid; grid-template-columns:repeat(4,1fr); gap:3rem; }
+.ab-skills ul{ list-style:none; padding:0; margin:1rem 0 0; display:grid; gap:.6rem; font-size:.95rem; }
+@media (max-width:900px){
+  .ab-intro{ grid-template-columns:1fr; gap:2.5rem; }
+  .ab-story{ columns:1; }
+  .ab-steps{ grid-template-columns:1fr; gap:2rem; }
+  .ab-skills{ grid-template-columns:1fr 1fr; gap:2.5rem; }
+  .ab-timeline li{ grid-template-columns:1fr; gap:.4rem; }
+  .ab-block{ padding:4rem 0; }
+}
+@media (max-width:520px){ .ab-skills{ grid-template-columns:1fr; } }
+
+/* ===== Services (en-tête) & témoignages ===== */
+.services-head{ padding:0 0 3rem; max-width:60ch; }
+.services-head h2{ font-size:clamp(1.8rem,4.2vw,3.2rem); }
+.services-head p{ color:var(--stone); line-height:1.6; margin:1.2rem 0 0; font-size:1.02rem; }
+section[hidden]{ display:none; }
+.testi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:3rem; }
+.testi{ margin:0; border-top:1px solid var(--line); padding-top:1.6rem; }
+.testi blockquote{ margin:0 0 1.4rem; font-size:1.15rem; line-height:1.5; font-weight:300; }
+.testi figcaption{ display:flex; flex-direction:column; gap:.2rem; font-size:.9rem; }
+.testi figcaption span{ color:var(--stone); }
+@media (max-width:900px){ .testi-grid{ grid-template-columns:1fr; gap:2rem; } }
