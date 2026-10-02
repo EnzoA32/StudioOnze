@@ -119,7 +119,7 @@ if (filmstrip) {
 const PAGES = [
   'index.html', 'projets.html', 'apropos.html', 'contact.html',
   'projet-le-scenario.html', 'projet-atelier-mareges.html', 'projet-maison-verre.html',
-  'projet-klint-studio.html', 'projet-perle-noire.html', 'projet-rivage-studio.html',
+  'projet-greco.html', 'projet-perle-noire.html', 'projet-rivage-studio.html',
   'projet-nemea.html', 'projet-robys-bar.html'
 ];
 
