@@ -240,50 +240,63 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
 })();
 
 
-// Carrousel horizontal : compteur, flèches, glisser à la souris
+// Carrousel horizontal piloté par le scroll vertical : la section reste épinglée
+// pendant que la piste défile ; les flèches font défiler la page jusqu'à la carte voulue.
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('[data-car]').forEach(car => {
+  document.querySelectorAll('[data-car-pin]').forEach(pin => {
+    const sticky = pin.querySelector('.car-sticky');
+    const car = pin.querySelector('[data-car]');
     const track = car.querySelector('.car-track');
     const cards = [...track.querySelectorAll('.car-card')];
     const cur = car.querySelector('.car-cur');
     const prev = car.querySelector('[data-prev]'), next = car.querySelector('[data-next]');
-    let idx = 0;
     const pad = n => String(n).padStart(2, '0');
-    function update(){
-      let best = 0, bd = Infinity;
-      cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - track.scrollLeft); if (d < bd) { bd = d; best = i; } });
-      idx = best;
-      cards.forEach((c, i) => c.classList.toggle('on', i === idx));
-      cur.textContent = pad(idx + 1);
-      prev.disabled = idx === 0;
-      next.disabled = idx === cards.length - 1;
+    let maxShift = 0, range = 1, idx = -1, now = 0, target = 0, raf = 0;
+
+    function measure(){
+      pin.classList.remove('on'); pin.style.height = '';
+      pin.classList.add('on');
+      maxShift = Math.max(0, track.scrollWidth - car.clientWidth);
+      range = maxShift;
+      pin.style.height = (window.innerHeight + range) + 'px';
+      readTarget(); now = target; draw();
     }
+    function readTarget(){
+      const top = pin.getBoundingClientRect().top;
+      const p = range > 0 ? Math.min(1, Math.max(0, -top / range)) : 0;
+      target = p * maxShift;
+    }
+    function draw(){
+      track.style.transform = 'translate3d(' + (-now).toFixed(1) + 'px,0,0)';
+      const best = maxShift > 0 ? Math.round(now / maxShift * (cards.length - 1)) : 0;
+      if (best !== idx) {
+        idx = best;
+        cards.forEach((c, i) => c.classList.toggle('on', i === idx));
+        cur.textContent = pad(idx + 1);
+        prev.disabled = idx === 0;
+        next.disabled = idx === cards.length - 1;
+      }
+    }
+    function loop(){
+      raf = 0;
+      now += (target - now) * (reduce ? 1 : 0.14);
+      if (Math.abs(target - now) < 0.4) now = target;
+      draw();
+      if (now !== target) raf = requestAnimationFrame(loop);
+    }
+    function onScroll(){ readTarget(); if (!raf) raf = requestAnimationFrame(loop); }
     function go(i){
       i = Math.max(0, Math.min(cards.length - 1, i));
-      track.scrollTo({left: cards[i].offsetLeft, behavior: reduce ? 'auto' : 'smooth'});
+      const pinTop = pin.getBoundingClientRect().top + window.scrollY;
+      const x = maxShift * (i / (cards.length - 1));
+      window.scrollTo({top: pinTop + x, behavior: reduce ? 'auto' : 'smooth'});
     }
     prev.addEventListener('click', () => go(idx - 1));
     next.addEventListener('click', () => go(idx + 1));
-    track.addEventListener('scroll', () => requestAnimationFrame(update), {passive:true});
-
-    let down = false, moved = false, sx = 0, sl = 0;
-    track.addEventListener('pointerdown', e => {
-      if (e.pointerType !== 'mouse' || e.button !== 0) return;
-      down = true; moved = false; sx = e.clientX; sl = track.scrollLeft;
-    });
-    window.addEventListener('pointermove', e => {
-      if (!down) return;
-      const dx = e.clientX - sx;
-      if (Math.abs(dx) > 4) { moved = true; track.classList.add('dragging'); }
-      if (moved) track.scrollLeft = sl - dx;
-    });
-    window.addEventListener('pointerup', () => {
-      if (!down) return;
-      down = false;
-      if (moved) { track.classList.remove('dragging'); update(); go(idx); }
-    });
-    track.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
-    update();
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    measure();
   });
 })();
