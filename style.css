@@ -612,3 +612,22 @@ section[hidden]{ display:none; }
 .review-by span{ color:var(--stone); font-size:.8rem; }
 @media (max-width:900px){ .review{ flex-basis:82vw; } }
 .review blockquote{ flex:1; }
+
+/* rail maquettes */
+.frames-rail{ display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory; padding:0 0 1rem; scrollbar-width:thin; scrollbar-color:var(--line) transparent; overscroll-behavior-x:contain; align-items:start; }
+.frames-rail::-webkit-scrollbar{ height:4px; } .frames-rail::-webkit-scrollbar-thumb{ background:var(--line); border-radius:10px; }
+.frames-rail .frame{ flex:0 0 clamp(280px,31vw,430px); scroll-snap-align:start; margin:0 !important; }
+.frames-rail .frame:nth-child(even){ margin-top:2.5rem !important; }
+.rail-hint{ display:block; margin-bottom:1rem; color:var(--stone); }
+.mini-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:2.2rem 3rem; margin-top:2.5rem; }
+.mini-grid h3{ font-weight:400; text-transform:uppercase; letter-spacing:-.02em; margin:.5rem 0 .6rem; }
+.mini-grid p{ font-weight:300; line-height:1.6; margin:0; }
+.shots3{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.5rem; }
+.shots3 img,.shots2 img{ width:100%; height:auto; display:block; }
+.shots2{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem; }
+.refs{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; margin-top:2rem; max-width:44rem; }
+.refs img{ width:100%; height:auto; display:block; }
+.timeline{ list-style:none; margin:2.5rem 0 0; padding:0; border-top:1px solid var(--line); }
+.timeline li{ display:grid; grid-template-columns:9rem 1fr; gap:2rem; padding:1.2rem 0; border-bottom:1px solid var(--line); }
+.timeline strong{ font-weight:400; text-transform:uppercase; font-size:.8rem; letter-spacing:.08em; } .timeline p{ margin:0; font-weight:300; line-height:1.55; }
+@media (max-width:800px){ .mini-grid,.shots3,.shots2{ grid-template-columns:1fr; } .timeline li{ grid-template-columns:1fr; gap:.4rem; } .frames-rail .frame:nth-child(even){ margin-top:0 !important; } }
