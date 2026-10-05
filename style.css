@@ -586,3 +586,10 @@ section[hidden]{ display:none; }
   .trio{ border-top:none; }
   .chain{ grid-template-columns:1fr 1fr; row-gap:1.2rem; }
 }
+
+/* Maquettes : deux écrans côte à côte (fiche Resolar) */
+@media (min-width:901px){
+  .frames.two{ grid-template-columns:repeat(2,1fr); }
+  .frames.two .frame:nth-child(2){ margin-top:0; }
+  .frames.two .scroll{ height:clamp(420px,46vw,640px); }
+}
