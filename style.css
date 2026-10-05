@@ -519,3 +519,70 @@ section[hidden]{ display:none; }
 .car-pin.on .car-img{ aspect-ratio:16/10; }
 @media (max-height:760px){ .car-pin.on .car-img{ aspect-ratio:2/1; } .car-pin.on .car-desc{ display:none; } }
 .car-pin.on .car-sticky > .wrap{ width:100%; }
+
+/* ===== Étude de cas Ruelle-Dommange ===== */
+.project-cover{ padding:0 0 3rem; border-top:none; }
+.shot{ margin:0; }
+.shot img{ display:block; width:100%; height:auto; border:1px solid var(--line); background:var(--panel); }
+.shot .fcap{ display:block; margin-top:.8rem; }
+.note{ margin:2rem 0 0; color:var(--stone); font-size:.9rem; max-width:62ch; }
+.pair{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start; margin-top:3rem; }
+.pair + .shot, .shot + .shot{ margin-top:1.5rem; }
+.pair .shot, .pair .shot + .shot{ margin-top:0; }
+.sw ~ .cols-2, .swatches + .cols-2{ margin-top:3.5rem; }
+.cols-2 > div > .caps{ display:block; margin-bottom:.8rem; }
+
+/* Enjeu : trois colonnes visibles d'un coup d'œil */
+.trio{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:3rem; border-top:1px solid var(--line); }
+.trio > div{ padding:1.6rem 2rem 1rem 0; }
+.trio > div + div{ padding-left:2rem; border-left:1px solid var(--line); }
+.trio h3{ font-size:var(--t-h3); font-weight:400; line-height:1.15; letter-spacing:-0.02em; margin:.9rem 0 .8rem; }
+.trio p{ margin:0; color:var(--stone); font-weight:300; line-height:1.6; max-width:34ch; }
+
+/* Démarche : la chaîne de réflexion */
+.chain{ list-style:none; counter-reset:chain; display:grid; grid-template-columns:repeat(6,1fr); margin:2.6rem 0 3.5rem; padding:0; border-top:1px solid var(--ink); }
+.chain li{ counter-increment:chain; padding:1rem 1rem 0 0; font-size:.9rem; line-height:1.35; }
+.chain li::before{ content:counter(chain, decimal-leading-zero); display:block; font-size:var(--t-label); letter-spacing:.12em; color:var(--stone); margin-bottom:.5rem; }
+
+/* Avant / après : le menu */
+.navcmp{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:4rem; }
+.navcmp-col{ border:1px solid var(--line); padding:1.6rem 1.8rem 1.4rem; }
+.navcmp-col.is-new{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+.navcmp-col.is-new .caps{ color:var(--accent-ink); opacity:.7; }
+.navcmp-n{ display:block; font-size:var(--t-h2); font-weight:300; letter-spacing:-0.03em; line-height:1.05; margin:1rem 0 1.2rem; }
+.navcmp-n small{ display:block; font-size:.85rem; letter-spacing:0; font-weight:400; opacity:.7; margin-top:.5rem; }
+.navcmp ul{ list-style:none; margin:0; padding:0; }
+.navcmp li{ padding:.65rem 0; border-top:1px solid color-mix(in srgb, currentColor 18%, transparent); font-size:.95rem; }
+.navcmp li em{ display:block; font-style:normal; font-size:.8rem; opacity:.65; margin-top:.15rem; }
+
+/* Expérience produit : texte + capture */
+.rowshot{ display:grid; grid-template-columns:5fr 7fr; gap:3rem; align-items:start; margin-top:4.5rem; }
+.rowshot.rev{ grid-template-columns:7fr 5fr; }
+.rowshot.rev .rowshot-text{ order:2; }
+.rowshot-text{ position:sticky; top:112px; }
+.rowshot-text h3{ font-size:var(--t-h3); font-weight:400; line-height:1.15; letter-spacing:-0.02em; margin:.8rem 0 1rem; }
+.rowshot-text p{ margin:0; color:var(--stone); font-weight:300; line-height:1.65; max-width:46ch; }
+
+/* Direction artistique : palette */
+.swatches{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin:3.5rem 0 0; }
+.sw{ min-height:clamp(220px,24vw,300px); padding:1.4rem 1.5rem; display:flex; flex-direction:column; justify-content:space-between; border:1px solid var(--line); }
+.sw .caps{ color:inherit; opacity:.75; }
+.sw strong{ display:block; font-size:var(--t-h3); font-weight:400; letter-spacing:-0.02em; margin-bottom:.5rem; }
+.sw p{ margin:0; font-size:.88rem; line-height:1.5; opacity:.8; max-width:30ch; }
+
+/* Résultat : statut honnête */
+.status{ margin:0 0 1.6rem; }
+.status .pill{ display:inline-flex; align-items:center; gap:.55rem; padding:.4rem 1rem; border-radius:100px; background:var(--accent); color:var(--accent-ink); font-size:var(--t-label); letter-spacing:.12em; text-transform:uppercase; font-weight:500; }
+.status .pill i{ width:7px; height:7px; border-radius:50%; background:var(--accent-ink); }
+@media (prefers-reduced-motion:no-preference){ .status .pill i{ animation:rdpulse 2s ease-in-out infinite; } }
+@keyframes rdpulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+
+@media (max-width:900px){
+  .pair, .navcmp, .swatches, .trio, .rowshot, .rowshot.rev{ grid-template-columns:1fr; }
+  .rowshot, .rowshot.rev{ gap:1.4rem; margin-top:3rem; }
+  .rowshot-text{ position:static; }
+  .rowshot.rev .rowshot-text{ order:0; }
+  .trio > div, .trio > div + div{ padding:1.4rem 0 .6rem; border-left:none; border-top:1px solid var(--line); }
+  .trio{ border-top:none; }
+  .chain{ grid-template-columns:1fr 1fr; row-gap:1.2rem; }
+}
