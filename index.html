@@ -199,15 +199,23 @@
     </div>
   </section>
 
-  <!-- Témoignages : retire l'attribut hidden quand tu as de vrais témoignages (avec l'accord de la personne) -->
-  <section id="temoignages" hidden>
+  <!-- Avis Google : copiés tels quels depuis la fiche Google. Pour en ajouter, duplique un <li class="review"> dans la liste. -->
+  <section id="temoignages">
     <div class="wrap">
       <h2 class="clients-title">Ce qu'ils en <mark>disent</mark></h2>
-      <ul class="testi-list">
-        <li><figure class="testi"><figcaption><strong>Prénom Nom</strong><span>Fonction, Entreprise</span></figcaption><blockquote>« Texte du témoignage à remplacer. »</blockquote></figure></li>
-        <li><figure class="testi"><figcaption><strong>Prénom Nom</strong><span>Fonction, Entreprise</span></figcaption><blockquote>« Texte du témoignage à remplacer. »</blockquote></figure></li>
-        <li><figure class="testi"><figcaption><strong>Prénom Nom</strong><span>Fonction, Entreprise</span></figcaption><blockquote>« Texte du témoignage à remplacer. »</blockquote></figure></li>
-      </ul>
+      <div class="reviews rv" data-reviews>
+        <div class="reviews-head">
+          <span class="caps">Avis Google</span>
+          <div class="reviews-btns"><button class="car-btn" data-rprev aria-label="Avis précédents">←</button><button class="car-btn" data-rnext aria-label="Avis suivants">→</button></div>
+        </div>
+        <ul class="reviews-track" tabindex="0" role="region" aria-label="Avis Google, défilants">
+          <li class="review"><div class="review-stars" role="img" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>«&nbsp;J'ai fait appel à Studio Onze pour la création de mon logo, et le résultat a dépassé mes attentes. Il correspond parfaitement à mon activité tout en se démarquant avec une identité forte et originale. Travail rapide, professionnel et créatif. Je recommande sans hésitation&nbsp;!&nbsp;»</blockquote><p class="review-by"><strong>Fiona Lechien</strong><span>Avis Google</span></p></li>
+          <li class="review"><div class="review-stars" role="img" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>«&nbsp;Travail sérieux et rapide et graphiste à l'écoute de ses clients&nbsp;! À recommander sans hésitation.&nbsp;»</blockquote><p class="review-by"><strong>Aurélie Sporcq</strong><span>Avis Google</span></p></li>
+          <li class="review"><div class="review-stars" role="img" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>«&nbsp;Service plus qu'efficace. En plus de respecter ma demande, j'ai même pu avoir des suggestions pertinentes pour mener à un résultat professionnel. Si l'efficacité avait un surnom, ce serait sans aucun doute &ldquo;&nbsp;Studio Onze&nbsp;&rdquo;&nbsp;»</blockquote><p class="review-by"><strong>Dorian Zen</strong><span>Avis Google</span></p></li>
+          <li class="review"><div class="review-stars" role="img" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>«&nbsp;J'ai fait appel à cette agence afin de reconstruire tout l'univers de mon restaurant ainsi que son image de marque.&nbsp;»</blockquote><p class="review-by"><strong>Leila Vnh</strong><span>Avis Google</span></p></li>
+          <li class="review"><div class="review-stars" role="img" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>«&nbsp;Très belle expérience avec Studio Onze pour la création de mon identité graphique. Travail professionnel, créatif et à l'écoute. Le rendu correspond parfaitement à mes attentes et même plus. Je recommande vivement&nbsp;!&nbsp;»</blockquote><p class="review-by"><strong>Romina Morreale</strong><span>Avis Google</span></p></li>
+        </ul>
+      </div>
     </div>
   </section>
 

@@ -300,3 +300,36 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     measure();
   });
 })();
+
+
+// Avis Google : défilement horizontal (flèches, molette/tactile natifs, glisser à la souris)
+(function(){
+  document.querySelectorAll('[data-reviews]').forEach(box => {
+    const track = box.querySelector('.reviews-track');
+    const prev = box.querySelector('[data-rprev]'), next = box.querySelector('[data-rnext]');
+    const step = () => {
+      const c = track.querySelector('.review');
+      return c ? c.getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 16) : 300;
+    };
+    const upd = () => {
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+    };
+    prev.addEventListener('click', () => track.scrollBy({left: -step(), behavior: 'smooth'}));
+    next.addEventListener('click', () => track.scrollBy({left: step(), behavior: 'smooth'}));
+    track.addEventListener('scroll', upd, {passive: true});
+    window.addEventListener('resize', upd);
+    let down = false, startX = 0, startL = 0;
+    track.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse') return;
+      down = true; startX = e.clientX; startL = track.scrollLeft;
+    });
+    window.addEventListener('pointermove', e => {
+      if (!down) return;
+      if (Math.abs(e.clientX - startX) > 4) track.classList.add('dragging');
+      track.scrollLeft = startL - (e.clientX - startX);
+    });
+    window.addEventListener('pointerup', () => { down = false; track.classList.remove('dragging'); });
+    upd();
+  });
+})();

@@ -593,3 +593,22 @@ section[hidden]{ display:none; }
   .frames.two .frame:nth-child(2){ margin-top:0; }
   .frames.two .scroll{ height:clamp(420px,46vw,640px); }
 }
+
+
+/* ===== Avis Google (accueil) ===== */
+.reviews-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:1.4rem; }
+.reviews-head .caps{ display:inline-flex; align-items:center; gap:.6rem; }
+.reviews-head .caps::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 1px var(--ink); }
+.reviews-btns{ display:flex; gap:.6rem; }
+.reviews-track{ list-style:none; margin:0; padding:0 0 .8rem; display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:thin; scrollbar-color:var(--line) transparent; cursor:grab; overscroll-behavior-x:contain; }
+.reviews-track.dragging{ cursor:grabbing; scroll-snap-type:none; scroll-behavior:auto; }
+.reviews-track::-webkit-scrollbar{ height:4px; }
+.reviews-track::-webkit-scrollbar-thumb{ background:var(--line); border-radius:10px; }
+.reviews-track:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
+.review{ flex:0 0 clamp(280px,29vw,400px); scroll-snap-align:start; display:flex; flex-direction:column; justify-content:space-between; gap:2rem; border:1px solid var(--line); padding:1.8rem 1.8rem 1.5rem; }
+.review-stars{ letter-spacing:.18em; font-size:.95rem; line-height:1; }
+.review blockquote{ margin:0; font-size:1rem; line-height:1.6; font-weight:300; user-select:none; }
+.review-by{ margin:0; display:flex; flex-direction:column; gap:.15rem; font-size:.9rem; }
+.review-by span{ color:var(--stone); font-size:.8rem; }
+@media (max-width:900px){ .review{ flex-basis:82vw; } }
+.review blockquote{ flex:1; }
