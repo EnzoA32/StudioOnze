@@ -333,3 +333,57 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     upd();
   });
 })();
+
+
+// ===== Formulaire de contact =====
+// Envoi gratuit via Web3Forms (250 messages/mois) : les messages arrivent dans enzo@studioonze.be.
+// 1) Va sur https://web3forms.com, saisis enzo@studioonze.be : la clé d'accès (Access Key) arrive par e-mail.
+// 2) Colle-la ci-dessous à la place de COLLE_TA_CLE_ICI. La clé peut rester dans ce fichier public (c'est prévu).
+// Tant que la clé n'est pas renseignée, le bouton ouvre le logiciel de mail du visiteur (mailto) en secours.
+(function(){
+  const WEB3FORMS_ACCESS_KEY = 'COLLE_TA_CLE_ICI';
+  const TO = 'enzo@studioonze.be';
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  const status = document.getElementById('formStatus');
+  const btn = form.querySelector('button[type="submit"]');
+  const label = btn.textContent;
+  const TYPES = {client: 'Projet / demande client', stage: 'Demande de stage', autre: 'Autre'};
+  const say = (msg, ok) => {
+    status.textContent = msg;
+    status.className = 'form-status show ' + (ok ? 'ok' : 'err');
+    status.setAttribute('role', ok ? 'status' : 'alert');
+  };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(form).entries());
+    if (d.website) return; // champ piège anti-spam : un humain ne le remplit pas
+    const type = TYPES[d.type] || d.type;
+    const subject = '[studioonze.be] ' + type + ' — ' + d.name;
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.indexOf('COLLE') === 0) {
+      const body = d.message + '\n\n— ' + d.name + ' (' + d.email + ')';
+      window.location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      say('Ton application de messagerie s\u2019ouvre pour finaliser l\u2019envoi. Tu peux aussi m\u2019écrire à ' + TO + '.', true);
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Envoi…';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY, subject: subject, from_name: 'Site Studio Onze',
+          name: d.name, email: d.email, type: type, message: d.message, botcheck: ''
+        })
+      });
+      const out = await res.json();
+      if (!res.ok || !out.success) throw new Error(out.message || 'Erreur');
+      form.reset();
+      say('Merci, ton message est bien parti. Je te réponds sous 48\u202fh.', true);
+    } catch (err) {
+      say('L\u2019envoi a échoué. Écris-moi directement à ' + TO + '.', false);
+    } finally {
+      btn.disabled = false; btn.textContent = label;
+    }
+  });
+})();
