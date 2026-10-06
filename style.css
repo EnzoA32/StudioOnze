@@ -631,3 +631,8 @@ section[hidden]{ display:none; }
 .timeline li{ display:grid; grid-template-columns:9rem 1fr; gap:2rem; padding:1.2rem 0; border-bottom:1px solid var(--line); }
 .timeline strong{ font-weight:400; text-transform:uppercase; font-size:.8rem; letter-spacing:.08em; } .timeline p{ margin:0; font-weight:300; line-height:1.55; }
 @media (max-width:800px){ .mini-grid,.shots3,.shots2{ grid-template-columns:1fr; } .timeline li{ grid-template-columns:1fr; gap:.4rem; } .frames-rail .frame:nth-child(even){ margin-top:0 !important; } }
+
+.week{ list-style:none; display:grid; grid-template-columns:repeat(7,1fr); gap:.5rem; margin:0 0 2.5rem; padding:0; }
+.week li{ border:1px solid var(--line); padding:1rem .6rem; text-align:center; display:flex; flex-direction:column; gap:.5rem; }
+.week strong{ font-weight:300; font-size:.85rem; } .week .off{ opacity:.45; border-style:dashed; }
+@media (max-width:800px){ .week{ grid-template-columns:repeat(4,1fr); } }
