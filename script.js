@@ -338,10 +338,10 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
 // ===== Formulaire de contact =====
 // Envoi gratuit via Web3Forms (250 messages/mois) : les messages arrivent dans enzo@studioonze.be.
 // 1) Va sur https://web3forms.com, saisis enzo@studioonze.be : la clé d'accès (Access Key) arrive par e-mail.
-// 2) Colle-la ci-dessous à la place de a9333572-9ee1-4649-918f-7890a12a32a4. La clé peut rester dans ce fichier public (c'est prévu).
+// 2) Colle-la ci-dessous à la place de COLLE_TA_CLE_ICI. La clé peut rester dans ce fichier public (c'est prévu).
 // Tant que la clé n'est pas renseignée, le bouton ouvre le logiciel de mail du visiteur (mailto) en secours.
 (function(){
-  const WEB3FORMS_ACCESS_KEY = 'a9333572-9ee1-4649-918f-7890a12a32a4';
+  const WEB3FORMS_ACCESS_KEY = 'COLLE_TA_CLE_ICI';
   const TO = 'enzo@studioonze.be';
   const form = document.getElementById('contactForm');
   if (!form) return;

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.studioonze.be/</loc><priority>1.0</priority></url>
-  <url><loc>https://www.studioonze.be/projets.html</loc><priority>0.9</priority></url>
-  <url><loc>https://www.studioonze.be/projet-le-scenario.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/projet-le-club.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/projet-greco.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/projet-nemea.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/projet-robys-bar.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/projet-ruelle-dommange.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/projet-resolar.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.studioonze.be/apropos.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.studioonze.be/contact.html</loc><priority>0.6</priority></url>
-  <url><loc>https://www.studioonze.be/mentions-legales.html</loc><priority>0.2</priority></url>
+  <url><loc>https://www.studioonze.be/</loc><lastmod>2026-10-07</lastmod><priority>1.0</priority></url>
+  <url><loc>https://www.studioonze.be/projets.html</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.studioonze.be/projet-le-scenario.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/projet-le-club.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/projet-greco.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/projet-nemea.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/projet-robys-bar.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/projet-ruelle-dommange.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/projet-resolar.html</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.studioonze.be/apropos.html</loc><lastmod>2026-10-07</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.studioonze.be/contact.html</loc><lastmod>2026-10-07</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.studioonze.be/mentions-legales.html</loc><lastmod>2026-10-07</lastmod><priority>0.2</priority></url>
+  <url><loc>https://www.studioonze.be/creation-logo-identite-visuelle.html</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
 </urlset>

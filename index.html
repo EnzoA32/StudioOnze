@@ -14,6 +14,11 @@
 <meta property="og:description" content="Studio Onze, graphiste et web designer indépendant basé à Thulin. Identité visuelle, direction artistique et sites web sur mesure.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.studioonze.be/">
+<meta property="og:image" content="https://www.studioonze.be/assets/og-studio-onze.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logotype Studio Onze en blanc sur fond noir">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="fr_BE">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -26,8 +31,15 @@
   "name": "Studio Onze",
   "url": "https://www.studioonze.be/",
   "description": "Graphiste et web designer indépendant — identité visuelle, direction artistique, sites web.",
-  "address": { "@type": "PostalAddress", "addressLocality": "Thulin", "addressCountry": "BE" },
-  "areaServed": "BE"
+  "address": { "@type": "PostalAddress", "addressLocality": "Thulin", "postalCode": "7350", "addressCountry": "BE" },
+  "areaServed": ["Hainaut", "Belgique"],
+  "image": "https://www.studioonze.be/assets/og-studio-onze.jpg",
+  "email": "enzo@studioonze.be",
+  "sameAs": [
+    "https://www.instagram.com/studioonze_agency/",
+    "https://www.linkedin.com/in/enzo-moreaux-21b8252bb/",
+    "https://www.facebook.com/studioonze11/"
+  ]
 }
 </script>
 </head>
@@ -76,7 +88,6 @@
 <main>
   <section id="accueil" class="hero-lines">
     <div class="wrap hero-top">
-      <h1 class="sr-only">Studio Onze — Graphiste et web designer indépendant à Thulin, Belgique</h1>
       <a class="logo-mark big" href="index.html" aria-label="Studio Onze"><svg class="logo-svg" viewBox="0 0 558 112" role="img" aria-hidden="true">
 <g clip-path="url(#clip0_678_168)">
 <path d="M514.725 24.5765V4.98785H506.748V0H528.294V4.98785H520.318V24.5765H514.725Z" fill="currentColor"/>
@@ -101,7 +112,7 @@
     <div class="wrap hero-grid">
       <div class="hero-intro">
         <span class="caps">[Intro]</span>
-        <p>Graphiste et web designer indépendant, basé à Thulin. Je conçois des systèmes visuels simples à vivre au quotidien — du logo au site web.</p>
+        <h1 class="hero-lede"><span class="sr-only">Studio Onze, </span>Graphiste et web designer indépendant, basé à Thulin. Je conçois des systèmes visuels simples à vivre au quotidien — du logo au site web.</h1>
         <div class="scroll-tag"><span class="arrow">↓</span> Défiler</div>
       </div>
       <div class="hero-photo"><span class="hero-count">/04</span></div>
@@ -123,11 +134,11 @@
     <div class="filmstrip">
       <a class="filmstrip-item" href="projet-le-scenario.html">
         <div class="filmstrip-label">Le Scénario</div>
-        <div class="filmstrip-img"><img src="assets/projets/le-scenario/le-scenario-cover.gif" alt="Le Scénario — rebranding et site web d'un restaurant à Leuze-en-Hainaut" width="1000" height="667"></div>
+        <div class="filmstrip-img"><img src="assets/projets/le-scenario/le-scenario-cover.webp" alt="Le Scénario — rebranding et site web d'un restaurant à Leuze-en-Hainaut" width="1000" height="667"></div>
       </a>
       <a class="filmstrip-item" href="projet-ruelle-dommange.html">
         <div class="filmstrip-label">Ruelle-Dommange</div>
-        <div class="filmstrip-img"><img src="assets/projets/ruelle-dommange/ruelle-dommange-cover.gif" alt="Ruelle-Dommange — refonte UX/UI du site d'une maison de champagne" loading="lazy" width="1350" height="1080"></div>
+        <div class="filmstrip-img"><img src="assets/projets/ruelle-dommange/ruelle-dommange-cover.webp" alt="Ruelle-Dommange — refonte UX/UI du site d'une maison de champagne" loading="lazy" width="1350" height="1080"></div>
       </a>
       <a class="filmstrip-item" href="projet-resolar.html">
         <div class="filmstrip-label">reSOLAR</div>
@@ -156,8 +167,9 @@
             <div class="service-text">
               <p>Logo, système graphique et charte pensés pour tenir dans le temps et s'appliquer facilement à tous vos supports.</p>
               <ul class="service-tags2"><li>Logo</li><li>Charte graphique</li><li>Système visuel</li><li>Naming</li></ul>
+              <a class="service-link" href="creation-logo-identite-visuelle.html">En savoir plus →</a>
             </div>
-            <div class="service-photo"><img src="https://picsum.photos/seed/onze-identite/800/600" alt="Visuel temporaire — projet d'identité de marque" loading="lazy" width="800" height="600"></div>
+            <div class="service-photo"><img src="assets/services/service-identite.webp" alt="Nemea — identité de marque" loading="lazy" width="800" height="600"></div>
           </div></div>
         </li>
         <li class="service-item" tabindex="0">
@@ -167,7 +179,7 @@
               <p>Conception et développement de sites sur mesure, rapides, responsives et pensés pour le référencement naturel.</p>
               <ul class="service-tags2"><li>Design UI</li><li>Développement</li><li>SEO</li><li>Responsive</li></ul>
             </div>
-            <div class="service-photo"><img src="https://picsum.photos/seed/onze-web/800/600" alt="Visuel temporaire — projet de site web" loading="lazy" width="800" height="600"></div>
+            <div class="service-photo"><img src="assets/services/service-web.webp" alt="Ruelle-Dommange — maquette du site web" loading="lazy" width="800" height="600"></div>
           </div></div>
         </li>
         <li class="service-item" tabindex="0">
@@ -177,7 +189,7 @@
               <p>Édition, packaging et signalétique : donner une présence physique et soignée à votre identité visuelle.</p>
               <ul class="service-tags2"><li>Édition</li><li>Packaging</li><li>Signalétique</li><li>Affiches</li></ul>
             </div>
-            <div class="service-photo"><img src="https://picsum.photos/seed/onze-print/800/600" alt="Visuel temporaire — projet print" loading="lazy" width="800" height="600"></div>
+            <div class="service-photo"><img src="assets/services/service-print.webp" alt="Greco — papeterie et supports imprimés" loading="lazy" width="800" height="600"></div>
           </div></div>
         </li>
       </ul>
@@ -267,6 +279,7 @@
           <ul>
             <li><a href="index.html">Accueil</a></li>
             <li><a href="projets.html">Projets</a></li>
+            <li><a href="creation-logo-identite-visuelle.html">Logo &amp; identité</a></li>
             <li><a href="apropos.html">À propos</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
