@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    { "source": "/inner_pages/about", "destination": "/apropos.html", "permanent": true },
+    { "source": "/inner_pages/contact", "destination": "/contact.html", "permanent": true },
+    { "source": "/inner_pages/:path*", "destination": "/", "permanent": true }
+  ]
+}
