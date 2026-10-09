@@ -689,3 +689,11 @@ button.submit:disabled{ opacity:.5; cursor:default; }
 @media(max-width:900px){.svc-proj{grid-template-columns:1fr}.svc-list{columns:1}}
 
 .service-link{ display:inline-block; margin-top:1.1rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.12em; text-decoration:underline; text-underline-offset:4px; }
+
+/* Logos clients : noir sur fond transparent (inversé automatiquement en thème sombre) */
+:root{ --logo-filter:none; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --logo-filter:invert(1); } }
+:root[data-theme="dark"]{ --logo-filter:invert(1); }
+.client-row.logos{ grid-template-columns:repeat(5,1fr); }
+.client-cell img{ display:block; width:auto; height:auto; max-height:56px; max-width:78%; filter:var(--logo-filter); }
+@media (max-width:900px){ .client-row.logos{ grid-template-columns:repeat(2,1fr); } .client-cell{ padding:2rem 1rem; } }
