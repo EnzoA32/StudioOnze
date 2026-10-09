@@ -44,8 +44,9 @@ a{color:inherit;} img{max-width:100%; display:block;}
 .wrap{ max-width:var(--maxw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad); }
 .caps{ text-transform:uppercase; letter-spacing:.12em; font-size:.72rem; font-weight:500; color:var(--stone); }
 
-header{ position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter:blur(10px); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px); }
+header{ position:sticky; top:0; z-index:50; border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px); }
+/* Le flou est porté par un pseudo-élément : un backdrop-filter sur le header lui-même enfermerait le menu mobile (position:fixed) dans la barre du haut. */
+header::before{ content:""; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg) 85%, transparent); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); }
 nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:88px; }
 .nav-right{ display:flex; align-items:center; gap:2.6rem; }
 .logo{ text-transform:uppercase; letter-spacing:.05em; font-size:.85rem; font-weight:600; text-decoration:none; }
@@ -59,7 +60,7 @@ nav.wrap{ display:flex; align-items:center; justify-content:space-between; heigh
 .mobilemenu{ display:none; }
 @media (max-width:760px){
   .navlinks{ display:none; } .burger{ display:block; }
-  .mobilemenu.open{ display:flex; flex-direction:column; position:fixed; inset:88px 0 0 0; background:var(--bg); padding:1rem var(--pad); z-index:49; }
+  .mobilemenu.open{ display:flex; flex-direction:column; position:fixed; inset:calc(88px + env(safe-area-inset-top,0px)) 0 0 0; overflow-y:auto; background:var(--bg); padding:1rem var(--pad); z-index:49; }
   .mobilemenu a{ padding:1.3rem 0; border-bottom:1px solid var(--line); text-decoration:none; font-size:1.4rem; text-transform:uppercase; letter-spacing:.03em; }
 }
 
@@ -697,3 +698,8 @@ button.submit:disabled{ opacity:.5; cursor:default; }
 .client-row.logos{ grid-template-columns:repeat(5,1fr); }
 .client-cell img{ display:block; width:auto; height:auto; max-height:56px; max-width:78%; filter:var(--logo-filter); }
 @media (max-width:900px){ .client-row.logos{ grid-template-columns:repeat(2,1fr); } .client-cell{ padding:2rem 1rem; } }
+
+.about-photo{ overflow:hidden; }
+.about-photo img{ display:block; width:100%; height:100%; object-fit:cover; }
+
+html:has(.mobilemenu.open){ overflow:hidden; }
