@@ -387,3 +387,55 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     }
   });
 })();
+
+
+// Carrousel « Projets à la une » (hero home) : flèches, clavier et glisser tactile.
+// Pas de défilement automatique, pour garder le contrôle de l'expérience.
+(function(){
+  document.querySelectorAll('[data-hero-car]').forEach(box => {
+    const track = box.querySelector('.hc-track');
+    const slides = [...track.querySelectorAll('.hc-slide')];
+    const cur = box.querySelector('.hc-cur');
+    const tot = box.querySelector('.hc-tot');
+    const prev = box.querySelector('[data-hc-prev]');
+    const next = box.querySelector('[data-hc-next]');
+    const pad = n => String(n).padStart(2, '0');
+    let idx = 0;
+    tot.textContent = pad(slides.length);
+
+    function show(i){
+      idx = Math.max(0, Math.min(slides.length - 1, i));
+      track.style.transform = 'translate3d(' + (-idx * 100) + '%,0,0)';
+      slides.forEach((s, k) => {
+        const on = k === idx;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        s.tabIndex = on ? 0 : -1;
+        const img = s.querySelector('img');
+        if (img && Math.abs(k - idx) <= 1) img.loading = 'eager';
+      });
+      cur.textContent = pad(idx + 1);
+      prev.disabled = idx === 0;
+      next.disabled = idx === slides.length - 1;
+    }
+    prev.addEventListener('click', () => show(idx - 1));
+    next.addEventListener('click', () => show(idx + 1));
+
+    box.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { show(idx - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { show(idx + 1); e.preventDefault(); }
+    });
+
+    // Glisser au doigt (le clic sur la carte reste un lien normal)
+    let x0 = null, y0 = 0;
+    box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+    box.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(idx + (dx < 0 ? 1 : -1));
+    }, {passive:true});
+
+    show(0);
+  });
+})();
