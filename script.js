@@ -390,18 +390,24 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
 
 
 // Carrousel « Projets à la une » (hero home)
-// Transition signature : un volet vert acide porte le logo Studio Onze, puis révèle le projet suivant.
-// Natif (Web Animations API), sans autoplay. Les clics pendant une transition sont ignorés.
+// - Transition signature : volet vert acide + logo Studio Onze, puis révélation du projet suivant.
+// - Hover chorégraphié (souris uniquement) : zoom, parallaxe légère, second visuel en masque, carré vert + logo.
+// - Autoplay intelligent (6 s) qui réutilise exactement la même transition que la navigation manuelle.
+// Natif (Web Animations API), une seule minuterie, aucune transition simultanée.
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
   const EASE = 'cubic-bezier(.76,0,.24,1)';   // volet : départ net, arrivée posée
   const OUT  = 'cubic-bezier(.16,1,.3,1)';    // éléments qui se posent
+  const INTERVAL = 6000;                       // délai de l'autoplay
 
   document.querySelectorAll('[data-hero-car]').forEach(box => {
     const viewport = box.querySelector('.hc-viewport');
     const slides = [...box.querySelectorAll('.hc-slide')];
     const panel = box.querySelector('.hc-panel');
     const logo = box.querySelector('.hc-panel-logo');
+    const sq = box.querySelector('.hc-sq');
+    const sqLogo = box.querySelector('.hc-sq-logo');
     const cur = box.querySelector('.hc-cur');
     const tot = box.querySelector('.hc-tot');
     const prev = box.querySelector('[data-hc-prev]');
@@ -409,11 +415,100 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     const n = slides.length;
     const pad = v => String(v).padStart(2, '0');
     let idx = 0, busy = false, running = [];
+    let timer = null, inside = false, onscreen = true, stopped = false;
     tot.textContent = pad(n);
 
     const play = (el, frames, opts) => { const a = el.animate(frames, opts); running.push(a); return a; };
     const clearAnims = () => { running.forEach(a => { try { a.cancel(); } catch(e){} }); running = []; };
 
+    /* ---------- Autoplay ---------- */
+    const canAuto = () => !stopped && !reduce.matches && !document.hidden && !inside && onscreen && !busy;
+    const stopAuto = () => { clearTimeout(timer); timer = null; };
+    function schedule(){            // une seule minuterie : on annule toujours la précédente
+      stopAuto();
+      if (!canAuto()) return;
+      timer = setTimeout(() => { timer = null; if (canAuto()) go(1); }, INTERVAL);
+    }
+
+    /* ---------- Hover : zoom + parallaxe + second visuel + carré vert ---------- */
+    let hovered = false, raf = 0, tx = 0, ty = 0, cx = 0, cy = 0, sqGen = 0;
+    const setVars = () => { viewport.style.setProperty('--px', cx.toFixed(3)); viewport.style.setProperty('--py', cy.toFixed(3)); };
+    function tick(){
+      cx += (tx - cx) * 0.12; cy += (ty - cy) * 0.12;
+      setVars();
+      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) raf = requestAnimationFrame(tick);
+      else { raf = 0; if (!hovered){ cx = cy = 0; setVars(); } }
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    function playSquare(){
+      sqGen++;
+      sq.getAnimations().forEach(a => a.cancel());
+      sqLogo.getAnimations().forEach(a => a.cancel());
+      sq.classList.add('is-on');
+      const g = sqGen, D = 1250;
+      // le carré entre en volet, tient, puis se retire pendant que le second visuel se dévoile
+      const a = sq.animate([
+        {clipPath:'inset(0 100% 0 0)', offset:0,   easing:EASE},
+        {clipPath:'inset(0 0 0 0)',    offset:.30, easing:'linear'},
+        {clipPath:'inset(0 0 0 0)',    offset:.56, easing:EASE},
+        {clipPath:'inset(0 0 0 100%)', offset:1}
+      ], {duration:D, fill:'both'});
+      sqLogo.animate([
+        {opacity:0, transform:'translateY(8px)', offset:0},
+        {opacity:0, transform:'translateY(8px)', offset:.14},
+        {opacity:1, transform:'translateY(0)',   offset:.34, easing:OUT},
+        {opacity:1, transform:'translateY(0)',   offset:1}
+      ], {duration:D, fill:'both'});
+      a.finished.then(() => {
+        if (g !== sqGen) return;
+        sq.classList.remove('is-on');
+        sq.getAnimations().forEach(x => x.cancel());
+        sqLogo.getAnimations().forEach(x => x.cancel());
+      }).catch(()=>{});
+    }
+    function hideSquare(){          // sortie douce : pas de flash vert
+      const g = ++sqGen;
+      if (!sq.classList.contains('is-on')) return;
+      const o = sq.animate([{opacity:1},{opacity:0}], {duration:180, fill:'forwards'});
+      o.finished.then(() => {
+        if (g !== sqGen) return;
+        sq.classList.remove('is-on');
+        sq.getAnimations().forEach(x => x.cancel());
+        sqLogo.getAnimations().forEach(x => x.cancel());
+      }).catch(()=>{});
+    }
+
+    function enterHover(){
+      if (hovered || busy || !fine.matches || reduce.matches) return;
+      hovered = true;
+      box.classList.add('is-hover');
+      playSquare();
+    }
+    function leaveHover(){
+      if (!hovered) return;
+      hovered = false;
+      box.classList.remove('is-hover');
+      tx = ty = 0; kick();            // retour fluide de la parallaxe
+      hideSquare();
+    }
+    viewport.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') enterHover(); });
+    viewport.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse' || busy) return;
+      if (!hovered) enterHover();
+      if (!hovered) return;
+      const r = viewport.getBoundingClientRect();
+      tx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - .5) * 2));
+      ty = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - .5) * 2));
+      kick();
+    });
+    viewport.addEventListener('pointerleave', leaveHover);
+
+    // Le curseur dans le slider (flèches comprises) suspend l'autoplay ; à la sortie, décompte complet
+    box.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse'){ inside = true; stopAuto(); } });
+    box.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse'){ inside = false; schedule(); } });
+
+    /* ---------- Slides ---------- */
     function setActive(i){
       idx = i;
       slides.forEach((s, k) => {
@@ -427,8 +522,10 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     }
 
     function go(dir){
-      if (busy) return;
+      if (busy) return;               // jamais deux transitions, jamais de file d'attente
       busy = true;
+      stopAuto();
+      leaveHover();                   // le hover ne doit pas se mélanger à la transition
       clearAnims();
       const to = (idx + dir + n) % n;
       const from = slides[idx], dest = slides[to];
@@ -441,7 +538,7 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
           setActive(to);
           const b = play(dest, [{opacity:0},{opacity:1}], {duration:140});
           return b.finished;
-        }).catch(()=>{}).finally(() => { clearAnims(); viewport.classList.remove('is-busy'); busy = false; });
+        }).catch(()=>{}).finally(() => { clearAnims(); viewport.classList.remove('is-busy'); busy = false; schedule(); });
         return;
       }
 
@@ -457,30 +554,28 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
       viewport.classList.add('is-busy');
       panel.classList.add('is-on');
 
-      // B : le visuel actuel recule légèrement, C : le volet vert entre, le logo se pose
       play(fromMedia, [{transform:'translateX(0) scale(1)'},{transform:`translateX(${-5*dir}%) scale(.96)`}], {duration:IN, easing:EASE, fill:'forwards'});
       const pin = play(panel, [{clipPath:enterClip},{clipPath:full}], {duration:IN, easing:EASE, fill:'forwards'});
       play(logo, [{opacity:0, transform:'translateY(10px)'},{opacity:1, transform:'translateY(0)'}], {duration:300, delay:150, easing:OUT, fill:'both'});
 
       pin.finished.then(() => {
-        // D : le panneau couvre tout → on change de projet, puis le volet se retire
-        setActive(to);
+        setActive(to);                // compteur et projet changent quand le panneau couvre tout
         const pout = play(panel, [{clipPath:full},{clipPath:exitClip}], {duration:OUTD, delay:HOLD, easing:EASE, fill:'both'});
         play(destMedia, [{transform:`translateX(${7*dir}%) scale(1.07)`},{transform:'translateX(0) scale(1)'}], {duration:680, delay:HOLD, easing:OUT, fill:'backwards'});
-        // visuel principal → détail graphique (pastille) → texte
         play(destCap, [{clipPath: dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)'},{clipPath:full}], {duration:320, delay:HOLD+260, easing:OUT, fill:'backwards'});
         play(destCapIn, [{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'translateY(0)'}], {duration:340, delay:HOLD+360, easing:OUT, fill:'backwards'});
         return pout.finished;
       }).catch(()=>{}).then(() => {
-        // E : retour à l'état stable (la fin des petites animations de texte est laissée finir)
         panel.classList.remove('is-on');
         panel.getAnimations().forEach(a => a.cancel());
         fromMedia.getAnimations().forEach(a => a.cancel());
         viewport.classList.remove('is-busy');
         busy = false;
+        schedule();                   // le délai de 6 s repart à la fin de chaque changement
       });
     }
 
+    /* ---------- Commandes manuelles (chacune relance le délai via go) ---------- */
     prev.addEventListener('click', () => go(-1));
     next.addEventListener('click', () => go(1));
 
@@ -489,16 +584,30 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
       if (e.key === 'ArrowRight'){ go(1); e.preventDefault(); }
     });
 
-    // Balayage tactile (le lien de la carte reste un lien normal)
     let x0 = null, y0 = 0;
-    box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+    box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; stopAuto(); }, {passive:true});
     box.addEventListener('touchend', e => {
       if (x0 === null) return;
       const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
       x0 = null;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+      else schedule();
     }, {passive:true});
 
+    /* ---------- Cycle de vie : onglet masqué, hors écran, ouverture d'un projet, départ ---------- */
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stopAuto(); else schedule(); });
+    reduce.addEventListener('change', () => { if (reduce.matches) stopAuto(); else schedule(); });
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(es => {
+        onscreen = es[0].isIntersecting;
+        if (onscreen) schedule(); else stopAuto();
+      }, {threshold:.25}).observe(box);
+    }
+    slides.forEach(s => s.addEventListener('click', () => { stopped = true; stopAuto(); }));
+    window.addEventListener('pagehide', () => { stopped = true; stopAuto(); cancelAnimationFrame(raf); });
+    window.addEventListener('pageshow', e => { if (e.persisted){ stopped = false; schedule(); } });
+
     setActive(0);
+    schedule();
   });
 })();
