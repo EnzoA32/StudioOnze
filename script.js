@@ -389,53 +389,116 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
 })();
 
 
-// Carrousel « Projets à la une » (hero home) : flèches, clavier et glisser tactile.
-// Pas de défilement automatique, pour garder le contrôle de l'expérience.
+// Carrousel « Projets à la une » (hero home)
+// Transition signature : un volet vert acide porte le logo Studio Onze, puis révèle le projet suivant.
+// Natif (Web Animations API), sans autoplay. Les clics pendant une transition sont ignorés.
 (function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const EASE = 'cubic-bezier(.76,0,.24,1)';   // volet : départ net, arrivée posée
+  const OUT  = 'cubic-bezier(.16,1,.3,1)';    // éléments qui se posent
+
   document.querySelectorAll('[data-hero-car]').forEach(box => {
-    const track = box.querySelector('.hc-track');
-    const slides = [...track.querySelectorAll('.hc-slide')];
+    const viewport = box.querySelector('.hc-viewport');
+    const slides = [...box.querySelectorAll('.hc-slide')];
+    const panel = box.querySelector('.hc-panel');
+    const logo = box.querySelector('.hc-panel-logo');
     const cur = box.querySelector('.hc-cur');
     const tot = box.querySelector('.hc-tot');
     const prev = box.querySelector('[data-hc-prev]');
     const next = box.querySelector('[data-hc-next]');
-    const pad = n => String(n).padStart(2, '0');
-    let idx = 0;
-    tot.textContent = pad(slides.length);
+    const n = slides.length;
+    const pad = v => String(v).padStart(2, '0');
+    let idx = 0, busy = false, running = [];
+    tot.textContent = pad(n);
 
-    function show(i){
-      idx = Math.max(0, Math.min(slides.length - 1, i));
-      track.style.transform = 'translate3d(' + (-idx * 100) + '%,0,0)';
+    const play = (el, frames, opts) => { const a = el.animate(frames, opts); running.push(a); return a; };
+    const clearAnims = () => { running.forEach(a => { try { a.cancel(); } catch(e){} }); running = []; };
+
+    function setActive(i){
+      idx = i;
       slides.forEach((s, k) => {
-        const on = k === idx;
+        const on = k === i;
         s.classList.toggle('is-active', on);
         s.setAttribute('aria-hidden', on ? 'false' : 'true');
         s.tabIndex = on ? 0 : -1;
-        const img = s.querySelector('img');
-        if (img && Math.abs(k - idx) <= 1) img.loading = 'eager';
+        s.querySelectorAll('img').forEach(im => { if (Math.abs(k - i) <= 1 || (i === 0 && k === n-1) || (i === n-1 && k === 0)) im.loading = 'eager'; });
       });
-      cur.textContent = pad(idx + 1);
-      prev.disabled = idx === 0;
-      next.disabled = idx === slides.length - 1;
+      cur.textContent = pad(i + 1);
     }
-    prev.addEventListener('click', () => show(idx - 1));
-    next.addEventListener('click', () => show(idx + 1));
+
+    function go(dir){
+      if (busy) return;
+      busy = true;
+      clearAnims();
+      const to = (idx + dir + n) % n;
+      const from = slides[idx], dest = slides[to];
+
+      // Variante sobre : fondu court, sans mouvement
+      if (reduce.matches){
+        viewport.classList.add('is-busy');
+        const a = play(from, [{opacity:1},{opacity:0}], {duration:140, fill:'forwards'});
+        a.finished.then(() => {
+          setActive(to);
+          const b = play(dest, [{opacity:0},{opacity:1}], {duration:140});
+          return b.finished;
+        }).catch(()=>{}).finally(() => { clearAnims(); viewport.classList.remove('is-busy'); busy = false; });
+        return;
+      }
+
+      const enterClip = dir > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
+      const exitClip  = dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)';
+      const full = 'inset(0 0 0 0)';
+      const fromMedia = from.querySelector('.hc-media');
+      const destMedia = dest.querySelector('.hc-media');
+      const destCap = dest.querySelector('.hc-cap');
+      const destCapIn = dest.querySelector('.hc-cap-in');
+      const IN = 380, HOLD = 60, OUTD = 420;
+
+      viewport.classList.add('is-busy');
+      panel.classList.add('is-on');
+
+      // B : le visuel actuel recule légèrement, C : le volet vert entre, le logo se pose
+      play(fromMedia, [{transform:'translateX(0) scale(1)'},{transform:`translateX(${-5*dir}%) scale(.96)`}], {duration:IN, easing:EASE, fill:'forwards'});
+      const pin = play(panel, [{clipPath:enterClip},{clipPath:full}], {duration:IN, easing:EASE, fill:'forwards'});
+      play(logo, [{opacity:0, transform:'translateY(10px)'},{opacity:1, transform:'translateY(0)'}], {duration:300, delay:150, easing:OUT, fill:'both'});
+
+      pin.finished.then(() => {
+        // D : le panneau couvre tout → on change de projet, puis le volet se retire
+        setActive(to);
+        const pout = play(panel, [{clipPath:full},{clipPath:exitClip}], {duration:OUTD, delay:HOLD, easing:EASE, fill:'both'});
+        play(destMedia, [{transform:`translateX(${7*dir}%) scale(1.07)`},{transform:'translateX(0) scale(1)'}], {duration:680, delay:HOLD, easing:OUT, fill:'backwards'});
+        // visuel principal → détail graphique (pastille) → texte
+        play(destCap, [{clipPath: dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)'},{clipPath:full}], {duration:320, delay:HOLD+260, easing:OUT, fill:'backwards'});
+        play(destCapIn, [{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'translateY(0)'}], {duration:340, delay:HOLD+360, easing:OUT, fill:'backwards'});
+        return pout.finished;
+      }).catch(()=>{}).then(() => {
+        // E : retour à l'état stable (la fin des petites animations de texte est laissée finir)
+        panel.classList.remove('is-on');
+        panel.getAnimations().forEach(a => a.cancel());
+        fromMedia.getAnimations().forEach(a => a.cancel());
+        viewport.classList.remove('is-busy');
+        busy = false;
+      });
+    }
+
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
 
     box.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') { show(idx - 1); e.preventDefault(); }
-      if (e.key === 'ArrowRight') { show(idx + 1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft'){ go(-1); e.preventDefault(); }
+      if (e.key === 'ArrowRight'){ go(1); e.preventDefault(); }
     });
 
-    // Glisser au doigt (le clic sur la carte reste un lien normal)
+    // Balayage tactile (le lien de la carte reste un lien normal)
     let x0 = null, y0 = 0;
     box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
     box.addEventListener('touchend', e => {
       if (x0 === null) return;
       const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
       x0 = null;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(idx + (dx < 0 ? 1 : -1));
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
     }, {passive:true});
 
-    show(0);
+    setActive(0);
   });
 })();

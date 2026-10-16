@@ -742,3 +742,20 @@ html:has(.mobilemenu.open){ overflow:hidden; }
   .hc-slide:hover .hc-alt, .hc-slide:focus-visible .hc-alt{ opacity:1; transform:scale(1); }
 }
 @media (prefers-reduced-motion:reduce){ .hc-slide .hc-alt{ transition:opacity .2s; transform:none; } }
+
+
+/* --- Carrousel hero : transition « volet vert + logo » --- */
+.hero-car{ --hc-green:#CBFF5C; }
+.hc-track{ position:absolute; inset:0; display:block; transition:none; transform:none; will-change:auto; }
+.hc-slide{ position:absolute; inset:0; flex:none; visibility:hidden; }
+.hc-slide.is-active{ visibility:visible; }
+.hc-media{ position:absolute; inset:0; display:block; will-change:transform; }
+.hc-media img{ will-change:transform; }
+.hc-cap-in{ display:flex; flex-direction:column; gap:.2rem; }
+.hc-cap{ flex-direction:column; }
+.hc-viewport.is-busy{ pointer-events:none; }
+.hc-panel{ position:absolute; inset:0; z-index:5; background:var(--hc-green); color:#111110; display:grid; place-items:center; visibility:hidden; pointer-events:none; clip-path:inset(0 0 0 100%); }
+.hc-panel.is-on{ visibility:visible; }
+.hc-panel-logo{ width:min(58%,420px); height:auto; display:block; color:#111110; }
+.hc-panel-logo path{ fill:#111110; }
+@media (max-width:800px){ .hc-panel-logo{ width:64%; } }
