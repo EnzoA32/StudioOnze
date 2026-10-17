@@ -391,7 +391,7 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
 
 // Carrousel « Projets à la une » (hero home)
 // - Transition signature : volet vert acide + logo Studio Onze, puis révélation du projet suivant.
-// - Hover chorégraphié (souris uniquement) : zoom, parallaxe légère, second visuel en masque, carré vert + logo.
+// - Hover chorégraphié (souris uniquement) : zoom, parallaxe légère, second visuel en masque, nom + CTA.
 // - Autoplay intelligent (6 s) qui réutilise exactement la même transition que la navigation manuelle.
 // Natif (Web Animations API), une seule minuterie, aucune transition simultanée.
 (function(){
@@ -406,8 +406,6 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     const slides = [...box.querySelectorAll('.hc-slide')];
     const panel = box.querySelector('.hc-panel');
     const logo = box.querySelector('.hc-panel-logo');
-    const sq = box.querySelector('.hc-sq');
-    const sqLogo = box.querySelector('.hc-sq-logo');
     const cur = box.querySelector('.hc-cur');
     const tot = box.querySelector('.hc-tot');
     const prev = box.querySelector('[data-hc-prev]');
@@ -431,7 +429,7 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     }
 
     /* ---------- Hover : zoom + parallaxe + second visuel + carré vert ---------- */
-    let hovered = false, raf = 0, tx = 0, ty = 0, cx = 0, cy = 0, sqGen = 0;
+    let hovered = false, raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
     const setVars = () => { viewport.style.setProperty('--px', cx.toFixed(3)); viewport.style.setProperty('--py', cy.toFixed(3)); };
     function tick(){
       cx += (tx - cx) * 0.12; cy += (ty - cy) * 0.12;
@@ -441,56 +439,16 @@ if (preview && rows.length && matchMedia('(pointer:fine)').matches) {
     }
     const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
 
-    function playSquare(){
-      sqGen++;
-      sq.getAnimations().forEach(a => a.cancel());
-      sqLogo.getAnimations().forEach(a => a.cancel());
-      sq.classList.add('is-on');
-      const g = sqGen, D = 1250;
-      // le carré entre en volet, tient, puis se retire pendant que le second visuel se dévoile
-      const a = sq.animate([
-        {clipPath:'inset(0 100% 0 0)', offset:0,   easing:EASE},
-        {clipPath:'inset(0 0 0 0)',    offset:.30, easing:'linear'},
-        {clipPath:'inset(0 0 0 0)',    offset:.56, easing:EASE},
-        {clipPath:'inset(0 0 0 100%)', offset:1}
-      ], {duration:D, fill:'both'});
-      sqLogo.animate([
-        {opacity:0, transform:'translateY(8px)', offset:0},
-        {opacity:0, transform:'translateY(8px)', offset:.14},
-        {opacity:1, transform:'translateY(0)',   offset:.34, easing:OUT},
-        {opacity:1, transform:'translateY(0)',   offset:1}
-      ], {duration:D, fill:'both'});
-      a.finished.then(() => {
-        if (g !== sqGen) return;
-        sq.classList.remove('is-on');
-        sq.getAnimations().forEach(x => x.cancel());
-        sqLogo.getAnimations().forEach(x => x.cancel());
-      }).catch(()=>{});
-    }
-    function hideSquare(){          // sortie douce : pas de flash vert
-      const g = ++sqGen;
-      if (!sq.classList.contains('is-on')) return;
-      const o = sq.animate([{opacity:1},{opacity:0}], {duration:180, fill:'forwards'});
-      o.finished.then(() => {
-        if (g !== sqGen) return;
-        sq.classList.remove('is-on');
-        sq.getAnimations().forEach(x => x.cancel());
-        sqLogo.getAnimations().forEach(x => x.cancel());
-      }).catch(()=>{});
-    }
-
     function enterHover(){
       if (hovered || busy || !fine.matches || reduce.matches) return;
       hovered = true;
       box.classList.add('is-hover');
-      playSquare();
     }
     function leaveHover(){
       if (!hovered) return;
       hovered = false;
       box.classList.remove('is-hover');
       tx = ty = 0; kick();            // retour fluide de la parallaxe
-      hideSquare();
     }
     viewport.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') enterHover(); });
     viewport.addEventListener('pointermove', e => {
