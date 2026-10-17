@@ -774,3 +774,10 @@ html:has(.mobilemenu.open){ overflow:hidden; }
   .hero-car.is-hover .hc-slide.is-active .hc-rev-cta .hc-clip > *{ transition-delay:.63s; }
   .hero-car.is-hover .hc-slide.is-active .hc-go{ opacity:1; transform:none; transition-delay:.55s; }
 }
+
+/* Accueil : H1 court + sous-titre (même rendu visuel que l'ancien paragraphe unique) */
+.hero-intro h1.hero-lede{ margin-bottom:0; }
+.hero-intro p.hero-lede-sub{ max-width:32ch; color:var(--stone); font-size:1.05rem; line-height:1.55; margin:.2em 0 1em; font-weight:inherit; }
+
+.contact-info .contact-alt{ margin-top:.8rem; font-size:1rem; color:var(--stone); }
+.contact-info .contact-alt a{ color:inherit; text-decoration:underline; text-underline-offset:3px; }
